@@ -24,7 +24,7 @@ services:
     depends_on:
       - php
     environment:
-      VIRTUAL_HOST: ${ADMIN_HOSTNAME}, ${SUPERVISOR_HOSTNAME}, ${API_HOSTNAME}
+      VIRTUAL_HOST: ${APP_URL}
     expose:
       - 80
     volumes:
