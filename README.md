@@ -26,51 +26,12 @@ In this example we assume we are using the `wolfpackit/projects/mytalentslab/mtl
 - `git clone wolfpackit/projects/mytalentslab/mtl/api-backend.git backend`, this clones the repo into the `backend` folder.
 - `cd backend`
 - `git remote add template git@gitlab.com:wolfpackit/projects/templates/laravel.git`
+- `git checkout -B develop`
+- `git merge template/master --alow-unrelated-histories`
+- Resolve the README conflict by including the template version.
+- `git add README.md && git commit`
 
+Finnaly run the install script that downloads Laravel and initializes the application
+- `sh app/templates/install.sh`, follow the instruction and fill in the application details when asked
 
-## URLs
-
-The following URLs are used for each of the deployments.
-
-### Subdomains / prefixes
-
-- `app` is for the Vue-based front-end that is used by the clients of MyTalentsLab
-- `api` is for the RESTful API that is used by the Vue-based front-end
-- `admin` is for the PHP-based back-end that is used by MyTalentsLab administrators
-- `supervisor` is for the PHP-based back-end that is used by the client's supervisors
-
-### Production
-
-- https://app.mytalentslab.nl
-- https://api.mytalentslab.nl
-- https://admin.mytalentslab.nl
-- https://supervisor.mytalentslab.nl
-
-https://www.mytalentslab.nl is not managed by Wolfpack.
-
-Alternatively, the production server can be reached as follows:
-
-- https://app.prd.mtl.wolfpackit.nl
-- https://api.prd.mtl.wolfpackit.nl
-- https://admin.prd.mtl.wolfpackit.nl
-- https://supervisor.prd.mtl.wolfpackit.nl
-
-For the API documentation, see https://api.prd.mtl.wolfpackit.nl/docs/
-
-### Acceptance
-
-- https://app.acc.mtl.wolfpackit.nl
-- https://api.acc.mtl.wolfpackit.nl
-- https://admin.acc.mtl.wolfpackit.nl
-- https://supervisor.acc.mtl.wolfpackit.nl
-
-For the API documentation, see https://api.acc.mtl.wolfpackit.nl/docs/
-
-### Develop server
-
-- https://app.dev.mtl.wolfpackit.nl
-- https://api.dev.mtl.wolfpackit.nl
-- https://admin.dev.mtl.wolfpackit.nl
-- https://supervisor.dev.mtl.wolfpackit.nl
-
-For the API documentation, see https://api.dev.mtl.wolfpackit.nl/docs/
+Now continue with the local setup by following the guide [local-setup](doc/local-setup.md#Configuring-the-hosts-file) from chapter 'Configuring the hosts file' 

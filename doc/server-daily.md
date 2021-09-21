@@ -13,7 +13,7 @@ The following steps should be followed to deploy the current active branch on th
 - SSH onto desired server
 - `cd sites/backend`
 - `git pull`
-- `cd mtl-app`
+- `cd app`
 - `sudo docker-compose --env-file ../src/.env down`
 - `sudo docker-compose --env-file ../src/.env up -d --build`
 
@@ -24,7 +24,7 @@ To prevent repeating the same steps over and over, a alias can be used.
 This alias is configured in `/home/wolfpack/.bashrc` and contains the following content:
 ```
 restart(){
-    cd /home/wolfpack/sites/backend/mtl-app
+    cd /home/wolfpack/sites/backend/app
     sudo docker-compose --env-file ../src/.env down
     sudo docker-compose --env-file ../src/.env up --build $1 $2 $3
     }

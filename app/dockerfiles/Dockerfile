@@ -37,7 +37,7 @@ RUN echo "upload_max_filesize = 25M" > /usr/local/etc/php/php.ini && \
 # Set working directory
 WORKDIR /var/www
 
-COPY ../docker-configs/php/php-fpm-entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker-configs/php/php-fpm-entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN dos2unix /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 CMD ["/usr/local/bin/entrypoint.sh","php-fpm","-F"]

@@ -1,7 +1,23 @@
 #!/bin/bash
+# shellcheck disable=SC2046
+SCRIPT_DIRECTORY=$(cd $(dirname $0) && pwd)
+cd "${SCRIPT_DIRECTORY}" || exit
 
-cd -P -- "$(dirname -- "$0")" && pwd -P| exit
+cd ../..
+if [ -z "$(ls -A src)" ]; then
+  #PWD SET TO PARENT FOLDER TO PREVENT NON EMPTY ERROR ON CREATE-PROJECT
+  docker run --rm \
+  -v $PWD:/app \
+  -u $(id -u):$(id -g) \
+  composer composer create-project laravel/laravel src
 
+else
+  echo 'Skipping fresh laravel import, "src" folder is not empty'
+fi
+
+cd "${SCRIPT_DIRECTORY}" || exit
+
+echo ${PWD}
 read -p "Enter application name [Laravel]: " var
 APP_NAME=${var:-Laravel}
 echo "${APP_NAME}"
@@ -32,10 +48,15 @@ EMAIL_FROM_ADDRESS=${var:-noreply@app.nl}
 echo "${EMAIL_FROM_ADDRESS}"
 export EMAIL_FROM_ADDRESS
 
-#tmpfile=$(mktemp /tmp/temp.env)
-#envsubst < general-stub.env > tmpfile
-t= envsubst < general-stub.env
-echo $t
-sh env-merge.sh $t ../../src/.env ./test.env
+echo "Replacing env variables in template"
+envsubst < general-stub.env > tmpfile
+cp ../../src/.env fresh.env
+sh env-merge.sh ../../src/.env tmpfile
+rm tmpfile
 
+echo "Create fresh .gitignore"
 cp .gitignore ../../src
+
+cd .. | exit
+echo "Create docker.env file"
+cp app/docker.env.example app/docker.env

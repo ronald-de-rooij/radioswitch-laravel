@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   php:
-    container_name: mtl-php
+    container_name: app-php
     build:
       context: ./
       dockerfile: dockerfiles/Dockerfile
@@ -18,7 +18,7 @@ services:
       - ../src:/var/www
       - ./docker-configs/php/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini
   nginx:
-    container_name: mtl-nginx
+    container_name: app-nginx
     image: nginx:alpine
     restart: unless-stopped
     depends_on:
@@ -31,7 +31,7 @@ services:
       - ../src:/var/www
       - ./docker-configs/nginx:/etc/nginx/conf.d/
   postgres:
-    container_name: mtl-postgres
+    container_name: app-postgres
     image: postgres:13-alpine
     volumes:
       - "../postgres-data:/var/lib/postgresql/data"
@@ -42,7 +42,7 @@ services:
     ports:
       - "5432:5432"
   node:
-    container_name: mtl-npm
+    container_name: app-npm
     image: node:14
     restart: unless-stopped
     volumes:
@@ -51,7 +51,7 @@ services:
     working_dir: /var/www
     command: sh -c 'npm install && npm run watch-poll'
   mailhog:
-    container_name: mtl-mailhog
+    container_name: app-mailhog
     image: mailhog/mailhog:latest
     ports:
       - 1025:1025
@@ -60,14 +60,14 @@ services:
 #    build:
 #      context: ./
 #      dockerfile: websocket.dockerfile
-#    container_name: mtl-websocket
+#    container_name: app-websocket
 #    volumes:
 #
 #      - ../src:/var/www/html
 #    ports:
 #      - 6001:6001
   cron:
-    container_name: mtl-cron
+    container_name: app-cron
     build:
       context: .
       dockerfile: dockerfiles/cron.dockerfile
@@ -76,7 +76,7 @@ services:
     volumes:
       - ../src:/var/www
   queue:
-    container_name: mtl-queue
+    container_name: app-queue
     working_dir: /var/www
     build:
       context: .
@@ -85,7 +85,7 @@ services:
       - postgres
     volumes:
       - ../src:/var/www
-    command: 'php artisan queue:work --queue=default,unreadNotificationMailQueue'
+    command: 'php artisan queue:work --queue=default'
 networks:
   default:
     external:

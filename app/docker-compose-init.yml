@@ -1,9 +1,0 @@
-version: "3.7"
-services:
-  composer:
-    image: composer:2.1.6
-    container_name: app-composer
-    working_dir: /var/www/
-    volumes:
-      - ../src:/var/www
-      - ../app/template/install.sh:/install.sh
