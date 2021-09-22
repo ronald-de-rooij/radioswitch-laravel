@@ -68,3 +68,6 @@ each `composer update` command
             "@php artisan ide:model -M"
         ],
 ```
+
+#### Sentry integration 
+// TODO

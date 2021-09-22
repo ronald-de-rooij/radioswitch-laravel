@@ -143,3 +143,6 @@ See [Xdebug documentation](https://xdebug.org/docs/) for detailed information.
 
 ### Run multiple applications locally
 TODO
+
+### WSL2
+TODO

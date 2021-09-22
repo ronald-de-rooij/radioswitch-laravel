@@ -27,11 +27,11 @@ In this example we assume we are using the `wolfpackit/projects/mytalentslab/mtl
 - `cd backend`
 - `git remote add template git@gitlab.com:wolfpackit/projects/templates/laravel.git`
 - `git checkout -B develop`
-- `git merge template/master --alow-unrelated-histories`
+- `git merge template/master --allow-unrelated-histories`
 - Resolve the README conflict by including the template version.
 - `git add README.md && git commit`
 
-Finnaly run the install script that downloads Laravel and initializes the application
-- `sh app/templates/install.sh`, follow the instruction and fill in the application details when asked
+Finnaly run the installation script that downloads Laravel and initializes the application
+- `sh app/template/install.sh`, follow the instruction and fill in the application details when asked
 
 Now continue with the local setup by following the guide [local-setup](doc/local-setup.md#Configuring-the-hosts-file) from chapter 'Configuring the hosts file' 

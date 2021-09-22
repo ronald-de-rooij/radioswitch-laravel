@@ -23,6 +23,8 @@ RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 RUN docker-php-ext-install zip exif pcntl mbstring exif bcmath gd
 RUN docker-php-ext-install  pdo pdo_pgsql pgsql
 
+
+#TODO DISABLE XDEBUG !== local
 #Install xdebug
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
