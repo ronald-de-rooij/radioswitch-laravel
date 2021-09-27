@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  init:
+    container_name: app-init
+    working_dir: /app
+    build:
+      context: .
+      dockerfile: dockerfiles/init.dockerfile

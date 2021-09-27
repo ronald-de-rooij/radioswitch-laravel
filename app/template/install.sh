@@ -1,16 +1,13 @@
-#!/bin/bash
-# shellcheck disable=SC2046
+#!/usr/bin/env bash
+
 SCRIPT_DIRECTORY=$(cd $(dirname $0) && pwd)
 cd "${SCRIPT_DIRECTORY}" || exit
 
 cd ../..
+
 if [ -z "$(ls -A src)" ]; then
   #PWD SET TO PARENT FOLDER TO PREVENT NON EMPTY ERROR ON CREATE-PROJECT
-  docker run --rm \
-  -v $PWD:/app \
-  -u $(id -u):$(id -g) \
-  composer composer create-project laravel/laravel src
-
+  composer create-project laravel/laravel src
 else
   echo 'Skipping fresh laravel import, "src" folder is not empty'
 fi
