@@ -1,4 +1,6 @@
-FROM ubuntu:20.04
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
-#RUN export PATH=$PATH:/usr/local/bin
+FROM php
+RUN apt-get update && apt-get install -y \
+  git \
+  zip unzip \
+  gettext-base
+COPY --from=composer /usr/bin/composer /usr/bin/composer

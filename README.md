@@ -34,25 +34,22 @@ In this example we assume we are using the `wolfpackit/projects/mytalentslab/mtl
 - `git remote add template git@gitlab.com:wolfpackit/projects/templates/laravel.git`
 - `git checkout -B develop`
 - `git pull template master`
+- `docker build -t app-init .`
+
+Finnaly run the installation script that downloads Laravel and initializes the application. 
+Follow the instruction and fill in the application details when asked.
 - ```
   docker run -it --rm \
   -v ${PWD}:/app \
-  -u $(id -u):$(id -g) \
-  app_init chmod +x /app/app/template/install.sh && sh app/template/install.sh
-  ```
-- ```
-  docker run -it --rm \
-  -v ${PWD}:/app \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -w /app \
-  app_init sh app/template/install.sh
-  ```
-
-`docker build -t app-init .`
-
+  -u $(id -u):$(id -g) \
+  app_init chmod +x app/template/install.sh && sh app/template/install.sh
+  
+    docker run -it --rm \
+  -v ${PWD}:/app \
+  -w /app \
+  -u $(id -u):$(id -g) \
+  app_init sh /app/app/template/install.sh  ```
 - `git add README.md && git commit`
-
-Finnaly run the installation script that downloads Laravel and initializes the application
-- `sh app/template/install.sh`, follow the instruction and fill in the application details when asked
 
 Now continue with the local setup by following the guide [local-setup](doc/local-setup.md#Configuring-the-hosts-file) from chapter 'Configuring the hosts file' 

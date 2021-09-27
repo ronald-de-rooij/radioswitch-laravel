@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /bin/bash
 
 SCRIPT_DIRECTORY=$(cd $(dirname $0) && pwd)
 cd "${SCRIPT_DIRECTORY}" || exit
@@ -7,14 +7,20 @@ cd ../..
 
 if [ -z "$(ls -A src)" ]; then
   #PWD SET TO PARENT FOLDER TO PREVENT NON EMPTY ERROR ON CREATE-PROJECT
-  composer create-project laravel/laravel src
+  php /usr/bin/composer create-project laravel/laravel src
 else
   echo 'Skipping fresh laravel import, "src" folder is not empty'
+  read -p "Do you want to continue (y/n)? This will overwrite your (already) configured environment files![n]: " var
+  if [ "$var" != "${var#[Yy]}" ] ;then
+      echo 'Env files will be overwritten!'
+  else
+      echo 'Canceling..'
+      exit 1
+  fi
 fi
 
 cd "${SCRIPT_DIRECTORY}" || exit
 
-echo ${PWD}
 read -p "Enter application name [Laravel]: " var
 APP_NAME=${var:-Laravel}
 echo "${APP_NAME}"
@@ -54,6 +60,5 @@ rm tmpfile
 echo "Create fresh .gitignore"
 cp .gitignore ../../src
 
-cd .. | exit
 echo "Create docker.env file"
-cp app/docker.env.example app/docker.env
+cp ../docker.env.example ../docker.env
