@@ -19,9 +19,12 @@ installation / setup. Feel free to edit this according to your own needs.
 
 ## Prerequisites
 Local environment has the following packages installed:
-* docker
-* docker-compose
-* git
+* For Windows users, WSL2 is required
+* SSH agent
+* Required packages installed:
+  * docker
+  * docker-compose
+  * git
 
 ## Preparation
 - Ask your PM for a clean repo.
@@ -34,7 +37,7 @@ In this example we assume we are using the `wolfpackit/projects/mytalentslab/mtl
 - `git remote add template git@gitlab.com:wolfpackit/projects/templates/laravel.git`
 - `git checkout -B develop`
 - `git pull template master`
-- `docker build -t app-init .`
+- `docker-compose -f app/docker-compose-init.yml build`
 
 Finnaly run the installation script that downloads Laravel and initializes the application. 
 Follow the instruction and fill in the application details when asked.
@@ -43,13 +46,9 @@ Follow the instruction and fill in the application details when asked.
   -v ${PWD}:/app \
   -w /app \
   -u $(id -u):$(id -g) \
-  app_init chmod +x app/template/install.sh && sh app/template/install.sh
-  
-    docker run -it --rm \
-  -v ${PWD}:/app \
-  -w /app \
-  -u $(id -u):$(id -g) \
-  app_init sh /app/app/template/install.sh  ```
-- `git add README.md && git commit`
+  app_init sh app/template/install.sh
+  ```
+
+- `git add src && git commit -m 'Laravel template installation' && git push`
 
 Now continue with the local setup by following the guide [local-setup](doc/local-setup.md#Configuring-the-hosts-file) from chapter 'Configuring the hosts file' 

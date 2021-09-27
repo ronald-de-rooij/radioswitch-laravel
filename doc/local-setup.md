@@ -37,8 +37,9 @@ API_HOSTNAME=
 
 ### Configuring the hosts file
 
-The URLs you've configured need to be accessible by your browser. To do this, add the following entries to your hosts
-file.
+The URLs you've configured in your project need to be accessible by your browser. On live servers this is done by setting the domain name to the correct server ip address.
+For your local environment to work, you need to tell your machine that the traffic to the given domainname should be directed to your own machine.
+To do this, add the following entries to your hosts file. (in case you have a different hostname compared to app.test, then change it accordingly)
 
 On Windows, this file is located in `C:/Windows/System32/drivers/etc/hosts`. This file must be edited with administrator
 privileges.
@@ -67,13 +68,11 @@ On macOS/Linux:
 
 ### Build the Docker containers
 
-To build, execute the following commands:
-
+To build, execute the following commands: (note, this step can take some time)  
 * `cd app`
-* `docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`
+* `docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`\
 
 On macOS/Linux:
-
 * `cd app`
 * `sudo docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`
 
@@ -83,7 +82,6 @@ To get everything set up and ready, execute the following commands:
 
 * `docker exec app-php composer install`
 * `docker exec app-php php artisan key:generate`
-* `docker exec app-php php artisan passport:client --personal`
 
 **Note:** Because `php artisan key:generate` means that the `.env` file has changed, you need
 to build the Docker containers again!

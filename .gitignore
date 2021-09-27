@@ -1,4 +1,3 @@
 postgres-data/*
 .idea/
-
-mtl-app/docker.env
+app/docker.env

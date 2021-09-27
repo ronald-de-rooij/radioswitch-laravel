@@ -30,13 +30,12 @@ services:
   postgres:
     container_name: app-postgres
     image: postgres:13-alpine
-    user: ${POSTGRES_HOST_USER?Variable POSTGRES_HOST_USER not set}
     restart: unless-stopped
     volumes:
       - "../db-data:/var/lib/postgresql/data"
       - "/etc/passwd:/etc/passwd:ro"
     environment:
-      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_DATABASE}
   node:

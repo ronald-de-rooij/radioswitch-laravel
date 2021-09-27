@@ -53,7 +53,6 @@ export EMAIL_FROM_ADDRESS
 
 echo "Replacing env variables in template"
 envsubst < general-stub.env > tmpfile
-cp ../../src/.env fresh.env
 sh env-merge.sh ../../src/.env tmpfile
 rm tmpfile
 

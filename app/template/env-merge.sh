@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-
+#! /bin/bash
 original_file=$1
 patch_file=$2
 
@@ -9,11 +8,15 @@ while IFS="" read -r line || [ -n "$line" ]
 do
     if [ ! "$line" ]; then
        continue
-      fi
-    # printf 'patching %s\n' "$line"
+    fi
     # (?<==) is the lookbehind for = to keep it
     # otherwise it will match key1/key2 in regular text
      search_string=$(echo "$line" | perl -ne 's/(?<==).*//g; print;')
-    # printf 'search string: "%s"\n' "$search_string"
-    sed  -i -e "s/$search_string.*/$line/g" $original_file
+    #printf 'search string: "%s"\n' "$search_string"
+    #sed  -i -e "s/$search_string.*/$line/g" $original_file
+    if grep "$search_string.*" $original_file; then
+      sed  -i -e "s/$search_string.*/$line/g" $original_file
+    else
+      sed -i -e "$ a $line" $original_file
+    fi
 done < "$patch_file"
