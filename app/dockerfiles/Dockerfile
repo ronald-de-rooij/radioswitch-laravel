@@ -1,5 +1,7 @@
 FROM php:8.0.3-fpm
 
+WORKDIR /var/www/html
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
@@ -12,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     zip \
     unzip \
-    dos2unix
+    dos2unix \
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -20,26 +22,22 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-jpeg
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
-RUN docker-php-ext-install zip exif pcntl mbstring exif bcmath gd
-RUN docker-php-ext-install  pdo pdo_pgsql pgsql
-
-
-#TODO DISABLE XDEBUG !== local
-#Install xdebug
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
-
-# Get latest Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN docker-php-ext-install zip exif pcntl mbstring exif bcmath gd pdo pdo_pgsql pgsql
 
 # Update php config variables
 RUN echo "upload_max_filesize = 25M" > /usr/local/etc/php/php.ini && \
     echo "post_max_size = 25M" >> /usr/local/etc/php/php.ini
 
-# Set working directory
-WORKDIR /var/www
+COPY app/docker-configs/cron/crontab /etc/crontabs/root
 
-COPY docker-configs/php/php-fpm-entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN dos2unix /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-CMD ["/usr/local/bin/entrypoint.sh","php-fpm","-F"]
+#Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY src/composer.json src/composer.lock ./
+RUN composer install --no-scripts --optimize-autoloader --no-dev
+
+#Copy source code
+COPY --chown=www-data:www-data src ./
+
+#Optimize performance
+RUN composer dump-autoload
+RUN php artisan config:cache && php artisan route:cache && php artisan view:cache

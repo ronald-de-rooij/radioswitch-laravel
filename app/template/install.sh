@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 SCRIPT_DIRECTORY=$(cd $(dirname $0) && pwd)
 cd "${SCRIPT_DIRECTORY}" || exit

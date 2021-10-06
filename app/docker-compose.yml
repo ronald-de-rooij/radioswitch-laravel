@@ -1,74 +1,50 @@
 version: "3.7"
+networks:
+  default:
+    external:
+      name: nginx-proxy
+volumes:
+  storage:
+  dbdata:
+
 services:
   php:
-    container_name: app-php
-    build:
-      context: ./
-      dockerfile: dockerfiles/Dockerfile
+    image: app-php:latest
     env_file:
-      - ../src/.env
+        - ../src/.env
     restart: unless-stopped
-    working_dir: /var/www/
     depends_on:
       - postgres
     volumes:
-      - ../src:/var/www
+      - storage:/var/www/html/storage
   nginx:
     container_name: app-nginx
-    image: nginx:alpine
+    image:app-nginx:latest
     restart: unless-stopped
     depends_on:
       - php
     environment:
-      VIRTUAL_HOST: ${ADMIN_HOSTNAME},${API_HOSTNAME}
-      LETSENCRYPT_HOST: ${ADMIN_HOSTNAME},${API_HOSTNAME}
-    expose:
-      - 80
-    volumes:
-      - ../src:/var/www
-      - ./docker-configs/nginx:/etc/nginx/conf.d/
+      VIRTUAL_HOST: ${HOSTNAME}
+      LETSENCRYPT_HOST: ${HOSTNAME}
   postgres:
     container_name: app-postgres
     image: postgres:13-alpine
     restart: unless-stopped
     volumes:
-      - "../db-data:/var/lib/postgresql/data"
-      - "/etc/passwd:/etc/passwd:ro"
-    environment:
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_DATABASE}
-  node:
-    container_name: app-npm
-    image: node:14
-    volumes:
-      - ../src:/var/www
-      - ../src/node_modules:/var/www/node_modules
-    working_dir: /var/www
-    command: sh -c 'npm install && npm run prod'
+      - dbdata:/var/lib/postgresql/data"
+    env_file:
+      - ../src/.env
   cron:
     container_name: app-cron
+    image: app-php:latest
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: dockerfiles/cron.dockerfile
     depends_on:
       - postgres
-    volumes:
-      - ../src:/var/www
+    command: [crond", "-f"]
   queue:
     container_name: app-queue
-    working_dir: /var/www
+    image: app-php:latest
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: dockerfiles/queue.dockerfile
     depends_on:
       - postgres
-    volumes:
-      - ../src:/var/www
     command: 'php artisan queue:work --queue=default'
-networks:
-  default:
-    external:
-      name: nginx-proxy
