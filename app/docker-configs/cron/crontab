@@ -1,1 +1,1 @@
-* * * * * /var/www/html/artisan "schedule:run"
+* * * * * /var/www/artisan "schedule:run"

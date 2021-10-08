@@ -1,5 +1,5 @@
 FROM php:8.0.3-fpm-alpine
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 # Install system dependencies
 RUN apk add --update git \
@@ -23,8 +23,6 @@ RUN apk add --no-cache \
     $PHPIZE_DEPS
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
-
-#RUN chown www-data:www-data /var/www/html/storage -Rf
 ################
 
 
@@ -45,3 +43,14 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY docker-configs/cron/crontab /etc/crontabs/crontab
 RUN cat /etc/crontabs/crontab >> /etc/crontabs/root
+
+
+################
+# DEV SPECIFIC #
+################
+#RUN chown -R www-data:www-data .
+#RUN chown -R www-data:www-data /var/www
+################
+
+
+

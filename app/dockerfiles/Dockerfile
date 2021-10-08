@@ -1,5 +1,5 @@
 FROM php:8.0.3-fpm-alpine
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 # Install system dependencies
 RUN apk add --update git \

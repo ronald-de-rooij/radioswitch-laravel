@@ -37,9 +37,10 @@ API_HOSTNAME=
 
 ### Configuring the hosts file
 
-The URLs you've configured in your project need to be accessible by your browser. On live servers this is done by setting the domain name to the correct server ip address.
-For your local environment to work, you need to tell your machine that the traffic to the given domainname should be directed to your own machine.
-To do this, add the following entries to your hosts file. (in case you have a different hostname compared to app.test, then change it accordingly)
+The URLs you've configured in your project need to be accessible by your browser. On live servers this is done by
+setting the domain name to the correct server ip address. For your local environment to work, you need to tell your
+machine that the traffic to the given domainname should be directed to your own machine. To do this, add the following
+entries to your hosts file. (in case you have a different hostname compared to app.test, then change it accordingly)
 
 On Windows, this file is located in `C:/Windows/System32/drivers/etc/hosts`. This file must be edited with administrator
 privileges.
@@ -69,12 +70,16 @@ On macOS/Linux:
 ### Build the Docker containers
 
 To build, execute the following commands: (note, this step can take some time)
+
 * `cd app`
-* `docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`\
+* `docker-compose --env-file ../src/.env up -d --build`\
 
 On macOS/Linux:
+
 * `cd app`
-* `sudo docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`
+* `sudo docker-compose --env-file ../src/.env up -d --build`
+
+The application should now be available on the specified hostname.
 
 ## Application initialization
 
@@ -86,13 +91,14 @@ To get everything set up and ready, execute the following commands:
 ## Optional
 
 ### IDE Helper
+
 Execute the following command:
 
 ```bash
 docker exec app-php php artisan ide-helper:models -M
 ```
 
-This allows you to use constructs like 
+This allows you to use constructs like
 
 ```injectablephp
 /**
@@ -113,8 +119,8 @@ mails are caught and can be viewed in your browser at http://localhost:8025 .
 ### PHP Debugging
 
 Debugging your PHP code can be useful at some times. The docker configuration incorporates the ability to do that out of
-the box. The only thing you need to do is to set the `XDEBUG_MODE` to `develop,debug` in `/app/docker.env`. Be sure
-to restart the docker after making changes to the `/app/docker.env`.
+the box. The only thing you need to do is to set the `XDEBUG_MODE` to `develop,debug` in `/app/docker.env`. Be sure to
+restart the docker after making changes to the `/app/docker.env`.
 
 When debugging is enabled, don't forget to configure your IDE to accept the incoming debugging connection.
 
@@ -137,7 +143,9 @@ To listen to PHP Debug connections click on the small red phone in the top right
 See [Xdebug documentation](https://xdebug.org/docs/) for detailed information.
 
 ### Run multiple applications locally
+
 TODO
 
 ### WSL2
+
 TODO

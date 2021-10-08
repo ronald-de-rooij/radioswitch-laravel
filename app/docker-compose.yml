@@ -1,30 +1,46 @@
 version: "3.7"
+volumes:
+  db-data:
+
 networks:
   default:
     external:
       name: nginx-proxy
-volumes:
-  storage:
-  db-data:
 
 services:
   php:
     container_name: app-php
-    image: app-php:latest
+    build:
+      context: ./
+      dockerfile: dockerfiles/dev.Dockerfile
+    env_file:
+      - ../src/.env
+      - ./docker.env
     restart: unless-stopped
+    working_dir: /var/www
+    user: 1000:1000
+    ports:
+      - 9003
     depends_on:
       - postgres
     volumes:
-      - storage:/var/www/html/storage
+      - ../src:/var/www
+      - ../src/.env:/var/www/.env
+      - ./docker-configs/php/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini
   nginx:
     container_name: app-nginx
-    image: app-nginx:latest
+    image: nginx:alpine
     restart: unless-stopped
+    working_dir: /var/www
     depends_on:
       - php
     environment:
       VIRTUAL_HOST: ${APP_URL}
-      LETSENCRYPT_HOST: ${APP_URL}
+    expose:
+      - 80
+    volumes:
+      - ../src:/var/www
+      - ./docker-configs/nginx:/etc/nginx/conf.d/
   postgres:
     container_name: app-postgres
     image: postgres:13-alpine
@@ -35,17 +51,29 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_DATABASE}
+  mailhog:
+    container_name: app-mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
   cron:
     container_name: app-cron
-    image: app-php:latest
-    restart: unless-stopped
-    command: [ "crond", "-f"]
+    build:
+      context: .
+      dockerfile: dockerfiles/dev.Dockerfile
     depends_on:
       - postgres
+    volumes:
+      - ../src:/var/www
+    command: [ "crond", "-f" ]
   queue:
     container_name: app-queue
-    image: app-php:latest
-    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: dockerfiles/dev.Dockerfile
     depends_on:
       - postgres
+    volumes:
+      - ../src:/var/www
     command: 'php artisan queue:work --queue=default'
