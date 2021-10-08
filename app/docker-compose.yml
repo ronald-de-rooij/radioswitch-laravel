@@ -5,13 +5,12 @@ networks:
       name: nginx-proxy
 volumes:
   storage:
-  dbdata:
+  db-data:
 
 services:
   php:
+    container_name: app-php
     image: app-php:latest
-    env_file:
-        - ../src/.env
     restart: unless-stopped
     depends_on:
       - postgres
@@ -19,28 +18,30 @@ services:
       - storage:/var/www/html/storage
   nginx:
     container_name: app-nginx
-    image:app-nginx:latest
+    image: app-nginx:latest
     restart: unless-stopped
     depends_on:
       - php
     environment:
-      VIRTUAL_HOST: ${HOSTNAME}
-      LETSENCRYPT_HOST: ${HOSTNAME}
+      VIRTUAL_HOST: ${APP_URL}
+      LETSENCRYPT_HOST: ${APP_URL}
   postgres:
     container_name: app-postgres
     image: postgres:13-alpine
     restart: unless-stopped
     volumes:
-      - dbdata:/var/lib/postgresql/data"
-    env_file:
-      - ../src/.env
+      - db-data:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
   cron:
     container_name: app-cron
     image: app-php:latest
     restart: unless-stopped
+    command: [ "crond", "-f"]
     depends_on:
       - postgres
-    command: [crond", "-f"]
   queue:
     container_name: app-queue
     image: app-php:latest

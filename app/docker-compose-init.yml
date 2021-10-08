@@ -5,4 +5,4 @@ services:
     working_dir: /app
     build:
       context: .
-      dockerfile: dockerfiles/init.dockerfile
+      dockerfile: dockerfiles/init.Dockerfile

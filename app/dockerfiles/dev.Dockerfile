@@ -14,6 +14,20 @@ RUN apk add --update git \
     zip \
     unzip
 
+
+################
+# DEV SPECIFIC #
+################
+#Install xdebug
+RUN apk add --no-cache \
+    $PHPIZE_DEPS
+RUN pecl install xdebug
+RUN docker-php-ext-enable xdebug
+
+#RUN chown www-data:www-data /var/www/html/storage -Rf
+################
+
+
 # Clear cache
 RUN rm /var/cache/apk/*
 
@@ -29,19 +43,5 @@ RUN echo "upload_max_filesize = 25M" > /usr/local/etc/php/php.ini && \
 #Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY app/docker-configs/cron/crontab /etc/crontabs/crontab
+COPY docker-configs/cron/crontab /etc/crontabs/crontab
 RUN cat /etc/crontabs/crontab >> /etc/crontabs/root
-
-#################
-# PROD SPECIFIC #
-#################
-
-COPY src/composer.json src/composer.lock ./
-RUN composer install --no-scripts --optimize-autoloader --no-dev
-
-#Copy source code
-COPY --chown=www-data:www-data src ./
-
-#Optimize performance
-RUN composer dump-autoload
-RUN php artisan config:cache && php artisan route:cache && php artisan view:cache

@@ -68,7 +68,7 @@ On macOS/Linux:
 
 ### Build the Docker containers
 
-To build, execute the following commands: (note, this step can take some time)  
+To build, execute the following commands: (note, this step can take some time)
 * `cd app`
 * `docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`\
 
@@ -82,9 +82,6 @@ To get everything set up and ready, execute the following commands:
 
 * `docker exec app-php composer install`
 * `docker exec app-php php artisan key:generate`
-
-**Note:** Because `php artisan key:generate` means that the `.env` file has changed, you need
-to build the Docker containers again!
 
 ## Optional
 
