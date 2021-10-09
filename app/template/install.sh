@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 SCRIPT_DIRECTORY=$(cd $(dirname $0) && pwd)
 cd "${SCRIPT_DIRECTORY}" || exit
@@ -20,6 +20,8 @@ else
 fi
 
 cd "${SCRIPT_DIRECTORY}" || exit
+USER=$(id -u)":"$(id -g)
+export USER
 
 read -p "Enter application name [Laravel]: " var
 APP_NAME=${var:-Laravel}

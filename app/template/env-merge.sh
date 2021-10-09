@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 original_file=$1
 patch_file=$2
 
