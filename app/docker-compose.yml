@@ -13,9 +13,9 @@ services:
     build:
       context: ./
       dockerfile: dockerfiles/dev.Dockerfile
-    env_file:
-      - ../src/.env
-      - ./docker.env
+#    env_file:
+#      - ../src/.env
+#      - ./docker.env
     restart: unless-stopped
     working_dir: /var/www
     user: 1000:1000
@@ -25,7 +25,6 @@ services:
       - postgres
     volumes:
       - ../src:/var/www
-      - ../src/.env:/var/www/.env
       - ./docker-configs/php/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini
   nginx:
     container_name: app-nginx
