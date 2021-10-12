@@ -13,12 +13,9 @@ services:
     build:
       context: ./
       dockerfile: dockerfiles/dev.Dockerfile
-#    env_file:
-#      - ../src/.env
-#      - ./docker.env
     restart: unless-stopped
     working_dir: /var/www
-    user: 1000:1000
+    user: ${DOCKER_USER}
     ports:
       - 9003
     depends_on:

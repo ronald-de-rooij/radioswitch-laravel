@@ -20,8 +20,8 @@ else
 fi
 
 cd "${SCRIPT_DIRECTORY}" || exit
-USER=$(id -u)":"$(id -g)
-export USER
+DOCKER_USER=$(id -u)":"$(id -g)
+export DOCKER_USER
 
 read -p "Enter application name [Laravel]: " var
 APP_NAME=${var:-Laravel}
