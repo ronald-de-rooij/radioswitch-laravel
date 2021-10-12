@@ -49,6 +49,6 @@ Follow the instruction and fill in the application details when asked.
   app_init sh app/template/install.sh
   ```
 
-- `git add src && git commit -m 'Laravel template installation' && git push`
+- `git add src && git commit -m 'Laravel template installation' && git push -u origin develop`
 
 Now continue with the local setup by following the guide [local-setup](doc/local-setup.md#Configuring-the-hosts-file) from chapter 'Configuring the hosts file' 
