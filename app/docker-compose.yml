@@ -47,6 +47,8 @@ services:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_DATABASE}
+    ports:
+      - "5432:5432"
   mailhog:
     container_name: app-mailhog
     image: mailhog/mailhog:latest

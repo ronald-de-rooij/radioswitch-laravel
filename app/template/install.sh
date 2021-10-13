@@ -34,14 +34,14 @@ echo "${APP_URL}"
 export APP_URL
 
 read -p "Enter database name [app]: " var
-DB_NAME=${var:-app}
-echo "${DB_NAME}"
-export DB_NAME
+DB_DATABASE=${var:-app}
+echo "${DB_DATABASE}"
+export DB_DATABASE
 
 read -p "Enter database user [postgres]: " var
 DB_USER=${var:-postgres}
-echo "${DB_USER}"
-export DB_USER
+echo "${DB_USERNAME}"
+export DB_USERNAME
 
 read -p "Enter database password [postgres]: " var
 DB_PASSWORD=${var:-postgres}
