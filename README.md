@@ -46,9 +46,15 @@ Follow the instruction and fill in the application details when asked.
   -v ${PWD}:/app \
   -w /app \
   -u $(id -u):$(id -g) \
-  app_init dos2unix app/template/install.sh && sh app/template/install.sh
+  app_init dos2unix app/template/install.sh
   ```
-
+  ```
+  docker run -it --rm \
+  -v ${PWD}:/app \
+  -w /app \
+  -u $(id -u):$(id -g) \
+  app_init sh app/template/install.sh
+  ```
 - `git add src && git commit -m 'Laravel template installation' && git push -u origin develop`
 
 Now continue with the local setup by following the guide [local-setup](doc/local-setup.md#Configuring-the-hosts-file) from chapter 'Configuring the hosts file' 
