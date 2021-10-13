@@ -7,7 +7,7 @@ cd ../..
 
 if [ -z "$(ls -A src)" ]; then
   #PWD SET TO PARENT FOLDER TO PREVENT NON EMPTY ERROR ON CREATE-PROJECT
-  php /usr/bin/composer create-project laravel/laravel src
+  /usr/bin/composer create-project laravel/laravel src
 else
   echo 'Skipping fresh laravel import, "src" folder is not empty'
   read -p "Do you want to continue (y/n)? This will overwrite your (already) configured environment files! Includes files are: .env, gitlab-ci.yml and docker.env [n]: " var
