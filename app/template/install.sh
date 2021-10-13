@@ -10,7 +10,7 @@ if [ -z "$(ls -A src)" ]; then
   php /usr/bin/composer create-project laravel/laravel src
 else
   echo 'Skipping fresh laravel import, "src" folder is not empty'
-  read -p "Do you want to continue (y/n)? This will overwrite your (already) configured environment files![n]: " var
+  read -p "Do you want to continue (y/n)? This will overwrite your (already) configured environment files! Includes files are: .env, gitlab-ci.yml and docker.env [n]: " var
   if [ "$var" != "${var#[Yy]}" ] ;then
       echo 'Env files will be overwritten!'
   else
@@ -58,8 +58,11 @@ envsubst < general-stub.env > tmpfile
 sh env-merge.sh ../../src/.env tmpfile
 rm tmpfile
 
+echo "Create docker.env file"
+cp ../docker.env.example ../docker.env
+
 echo "Create fresh .gitignore"
 cp .gitignore ../../src
 
-echo "Create docker.env file"
-cp ../docker.env.example ../docker.env
+echo "Create default .gitlab-ci"
+cp .gitlab-ci.yml ../../src
