@@ -39,7 +39,7 @@ echo "${DB_DATABASE}"
 export DB_DATABASE
 
 read -p "Enter database user [postgres]: " var
-DB_USER=${var:-postgres}
+DB_USERNAME=${var:-postgres}
 echo "${DB_USERNAME}"
 export DB_USERNAME
 

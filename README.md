@@ -46,7 +46,7 @@ Follow the instruction and fill in the application details when asked.
   -v ${PWD}:/app \
   -w /app \
   -u $(id -u):$(id -g) \
-  app_init dos2unix app/template/install.sh
+  app_init dos2unix app/template/*
   ```
   ```
   docker run -it --rm \
