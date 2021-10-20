@@ -13,9 +13,13 @@ services:
     build:
       context: ./
       dockerfile: dockerfiles/dev.Dockerfile
-    restart: unless-stopped
     working_dir: /var/www
     user: ${DOCKER_USER}
+    env_file:
+      - ./docker.env
+    environment:
+      XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST}
+      PHP_IDE_CONFIG: serverName=docker
     ports:
       - 9003
     depends_on:
@@ -23,10 +27,10 @@ services:
     volumes:
       - ../src:/var/www
       - ./docker-configs/php/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini
+
   nginx:
     container_name: app-nginx
     image: nginx:alpine
-    restart: unless-stopped
     working_dir: /var/www
     depends_on:
       - php
@@ -40,7 +44,6 @@ services:
   postgres:
     container_name: app-postgres
     image: postgres:13-alpine
-    restart: unless-stopped
     volumes:
       - db-data:/var/lib/postgresql/data"
     environment:

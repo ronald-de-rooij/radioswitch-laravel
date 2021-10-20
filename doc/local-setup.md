@@ -119,23 +119,30 @@ mails are caught and can be viewed in your browser at http://localhost:8025 .
 ### PHP Debugging
 
 Debugging your PHP code can be useful at some times. The docker configuration incorporates the ability to do that out of
-the box. The only thing you need to do is to set the `XDEBUG_MODE` to `develop,debug` in `/app/docker.env`. Be sure to
-restart the docker after making changes to the `/app/docker.env`.
+the box. The only thing you need to do is to set the `XDEBUG_MODE` to `develop,debug` in `/mtl-app/docker.env`. Be sure
+to restart the docker after making changes to the `/mtl-app/docker.env`.
 
 When debugging is enabled, don't forget to configure your IDE to accept the incoming debugging connection.
 
 Steps to take in PHPStorm:
 
-TODO: Work out exact steps, and double check if correct and working:
-
-- Add `PHP Remote debug` server.
-- Checkmark `Filter debug connection by IDE key`
-- Create Server
-    * host: `localhost`
-    * port: `80`
-    * Check debug mapping checkbox
-    * Map `/src` directory to `/var/www`
+- Go to settings (ctr+alt+s)
+- Navigate to PHP -> Server
+- Add a new one called 'docker' (this name needs to be identical to the `PHP_IDE_CONFIG` servername, which is defined in
+  the `docker-compose` file under the php service.
+- Select 'Use path mappings'
+- Link the `src` folder to `/var/www`
 - Save
+
+Image ![PHPStorm debug config](imges/phpstorm_debug.png) shows a complete overview of server.
+
+To tell the docker service where the IDE is located on your windows machine, you need to save the ip in an environment
+variable. Execute the following command in WSL:
+
+- `printf "export XDEBUG_CLIENT_HOST=\$(awk \'/nameserver/ {print \$2}\' /etc/resolv.conf) \n" >> ~/.bashrc`
+- `source ~/.bashrc`
+
+This exports the ip address each time you login into WSL. Thus above commands are only need to be used once.
 
 To listen to PHP Debug connections click on the small red phone in the top right corner.
 ![PHP Debug icon](images/php_debug_icon.png)
