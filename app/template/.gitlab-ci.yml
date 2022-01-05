@@ -48,9 +48,15 @@ phpunit:
   # List of jobs from which it will download the artifacts.
   dependencies:
     - composer
+  artifacts:
+    expire_in: 1 month
+    when: always
+    reports:
+      junit: src/reports/junit.xml
+      cobertura: src/reports/cobertura.xml
 
   script:
-    - phpunit --coverage-text --colors=never
+    - php artisan test
 
 codestyle:
   stage: inspect

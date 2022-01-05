@@ -64,5 +64,8 @@ cp ../docker.env.example ../docker.env
 echo "Create fresh .gitignore"
 cp .gitignore ../../src
 
+echo "Create phpunit configuration"
+cp phpunit.xml ../../src
+
 echo "Create default .gitlab-ci"
 cp .gitlab-ci.yml ../../
