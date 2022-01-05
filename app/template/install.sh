@@ -65,4 +65,4 @@ echo "Create fresh .gitignore"
 cp .gitignore ../../src
 
 echo "Create default .gitlab-ci"
-cp .gitlab-ci.yml ../../src
+cp .gitlab-ci.yml ../../
