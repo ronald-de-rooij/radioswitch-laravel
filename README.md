@@ -55,6 +55,15 @@ Follow the instruction and fill in the application details when asked.
   -u $(id -u):$(id -g) \
   app_init sh app/template/install.sh
   ```
+- Check if there are any code climate errors in the generated code:
+  ```
+  docker run -it --rm \
+  -v ${PWD}:/app \
+  -w /app \
+  -u $(id -u):$(id -g) \
+  app_init sh -c 'cd src && vendor/bin/phpcs --basepath=.. --report=full --standard=PSR12 --extensions=php --ignore=app/Support/helpers.php app'
+  ```
+  If errors are found, fix them.
 - `git add src && git commit -m 'Laravel template installation' && git push -u origin develop`
 
 Now continue with the local setup by following the guide [local-setup](doc/local-setup.md#Configuring-the-hosts-file) from chapter 'Configuring the hosts file' 
