@@ -74,4 +74,4 @@ cp .gitlab-ci.yml ../../
 cd ../../src
 
 # Install php code sniffer
-/usr/bin/composer --require-dev micheh/phpcs-gitlab squizlabs/php_codesniffer
+/usr/bin/composer require --dev micheh/phpcs-gitlab squizlabs/php_codesniffer
