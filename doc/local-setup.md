@@ -106,11 +106,6 @@ This allows you to use constructs like
  */
 ```
 
-### Code climate
-
-You can locally run the code climate checks by executing the following command in the `src` directory:
-```vendor/bin/phpcs --basepath=.. --report=full --standard=PSR12 --extensions=php --ignore=app/Support/helpers.php app```
-
 ### Database connection
 
 The Postgres database is exposed to your host machine. You can connect to it using you favorite DB manager, with
