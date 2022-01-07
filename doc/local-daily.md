@@ -36,6 +36,17 @@ macOS/Linux:
 * `cd app`
 * `sudo docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`
 
+## Code climate
+
+You can locally run the code climate checks by executing the following command in the `src` directory:
+  ```
+  docker run -it --rm \
+  -v ${PWD}:/app \
+  -w /app \
+  -u $(id -u):$(id -g) \
+  app_init sh -c 'cd src && vendor/bin/phpcs --basepath=.. --report=full --standard=PSR12 --extensions=php --ignore=app/Support/helpers.php app'
+  ```
+
 ## Laravel Telescope
 By default the project comes with some developer support in the form of [Laravel Telescope](https://laravel.com/docs/8.x/telescope).
 This tool keeps track of everything you need to debug problems.

@@ -48,15 +48,26 @@ phpunit:
   # List of jobs from which it will download the artifacts.
   dependencies:
     - composer
+  artifacts:
+    expire_in: 1 month
+    when: always
+    reports:
+      junit: src/reports/junit.xml
+      cobertura: src/reports/cobertura.xml
 
   script:
-    - phpunit --coverage-text --colors=never
+    - php artisan test
 
 codestyle:
   stage: inspect
-  dependencies: [ ]
+  dependencies: []
   script:
-    - phpcs --standard=PSR12 --extensions=php --ignore=app/Support/helpers.php app
+    - vendor/bin/phpcs --basepath=.. --report=full --report-\\Micheh\\PhpCodeSniffer\\Report\\Gitlab=reports/code-climate.json --standard=PSR12 --extensions=php --ignore=app/Support/helpers.php app
+  artifacts:
+    expire_in: 1 month
+    when: always
+    reports:
+      codequality: src/reports/code-climate.json
 
 dockerize-master:
   image: docker

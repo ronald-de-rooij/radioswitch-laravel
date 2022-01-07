@@ -64,5 +64,14 @@ cp ../docker.env.example ../docker.env
 echo "Create fresh .gitignore"
 cp .gitignore ../../src
 
+echo "Create phpunit configuration"
+cp phpunit.xml ../../src
+
 echo "Create default .gitlab-ci"
-cp .gitlab-ci.yml ../../src
+cp .gitlab-ci.yml ../../
+
+# Change directory to Laravel project
+cd ../../src
+
+# Install php code sniffer
+/usr/bin/composer require --dev micheh/phpcs-gitlab squizlabs/php_codesniffer
