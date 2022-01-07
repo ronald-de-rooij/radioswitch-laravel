@@ -2,25 +2,28 @@ FROM php:8.0.3-fpm-alpine
 WORKDIR /var/www
 
 # Install system dependencies
-RUN apk add --update git \
+RUN apk add --no-cache \
+    $PHPIZE_DEPS \
     bash \
     curl \
+    git \
     libjpeg-turbo-dev \
     libpng-dev \
-    oniguruma-dev \
     libxml2-dev \
     libzip-dev \
+    oniguruma-dev \
+    pcre-dev \
     postgresql-dev	\
+    unzip \
     zip \
-    unzip
-
-# Clear cache
-RUN rm /var/cache/apk/*
+ && rm -rf /var/cache/apk/*
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --with-jpeg
-RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
-RUN docker-php-ext-install zip exif pcntl mbstring exif bcmath gd pdo pdo_pgsql pgsql
+RUN docker-php-ext-configure gd --with-jpeg \
+ && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+ && docker-php-ext-install zip exif pcntl mbstring exif bcmath gd pdo pdo_pgsql pgsql \
+ && pecl install redis \
+ && docker-php-ext-enable redis
 
 # Update php config variables
 RUN echo "upload_max_filesize = 25M" > /usr/local/etc/php/php.ini && \
