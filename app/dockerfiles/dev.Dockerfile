@@ -29,7 +29,7 @@ RUN docker-php-ext-configure gd --with-jpeg \
 # DEV SPECIFIC #
 ################
 #Install xdebug
-RUN pecl install xdebug
+RUN pecl install xdebug \
  && docker-php-ext-enable xdebug
 ################
 
