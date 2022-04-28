@@ -19,6 +19,19 @@ else
   fi
 fi
 
+if [ -d "docs" ]
+then
+mkdir temp
+mv docs/backend/* temp
+rm docs -fr
+mv temp/* .
+rm temp -fr
+rsync -avr laravel-docs/* docs
+rm laravel-docs -rf
+else
+echo "Not merging documentation since there is no docs folder."
+fi
+
 cd "${SCRIPT_DIRECTORY}" || exit
 DOCKER_USER=$(id -u)":"$(id -g)
 export DOCKER_USER
@@ -32,6 +45,11 @@ read -p "Enter application url [app.test]: " var
 APP_URL=${var:-app.test}
 echo "${APP_URL}"
 export APP_URL
+
+read -p "Enter project abbreviation [app]: " var
+PROJECT_ABBREVIATION=${var:-app}
+echo "${PROJECT_ABBREVIATION}"
+export PROJECT_ABBREVIATION
 
 read -p "Enter database name [app]: " var
 DB_DATABASE=${var:-app}
@@ -69,6 +87,7 @@ cp phpunit.xml ../../src
 
 echo "Create default .gitlab-ci"
 cp .gitlab-ci.yml ../../
+
 
 # Change directory to Laravel project
 cd ../../src

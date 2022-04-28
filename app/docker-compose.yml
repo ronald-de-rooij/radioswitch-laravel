@@ -43,7 +43,7 @@ services:
       - ./docker-configs/nginx:/etc/nginx/conf.d/
   postgres:
     container_name: app-postgres
-    image: postgres:13-alpine
+    image: postgres:14-alpine
     volumes:
       - db-data:/var/lib/postgresql/data"
     environment:

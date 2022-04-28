@@ -1,27 +1,50 @@
 image: lorisleiva/laravel-docker:latest
 
-stages:
-  - build
-  - inspect
-  - dockerize
-
 before_script:
   - cd src
 
-# The job's name.
+stages:
+  - build
+  - inspect
+  - deploy
+
+test-pages:
+  image: python:3.8-buster
+  before_script:
+    - pip install -r requirements.txt
+  stage: deploy
+  script:
+    - mkdocs build --strict --verbose --site-dir test
+  artifacts:
+    paths:
+      - test
+  except:
+    - main
+
+pages:
+  image: python:3.8-buster
+  before_script:
+    - pip install -r requirements.txt
+  stage: deploy
+  script:
+    - mkdocs build --strict --verbose
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+
 composer:
-  # The job's stage (build, test or deploy).
   stage: build
 
-  # What to run on the job.
   script:
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
     - cp .env.example .env
     - php artisan key:generate
 
   artifacts:
-    # (Optional) Give it an expiration date, 
-    # after that period you won't be able to 
+    # (Optional) Give it an expiration date,
+    # after that period you won't be able to
     # download them via the UI anymore.
     expire_in: 1 month
 
@@ -69,54 +92,34 @@ codestyle:
     reports:
       codequality: src/reports/code-climate.json
 
-dockerize-master:
+dockerize-acceptance:
   image: docker
-  stage: dockerize
-
-  variables:
-    NGINX_TAG: $CI_REGISTRY_IMAGE/nginx
-    PHP_TAG: $CI_REGISTRY_IMAGE/php
+  stage: deploy
 
   services:
     - docker:dind
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker pull "$PHP_TAG:latest" || true
-    - docker pull "$NGINX_TAG:latest" || true
-
-    - docker build --pull --cache-from  "$PHP_TAG:latest" -t "$PHP_TAG:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA" -t "$PHP_TAG" . -f app/dockerfiles/Dockerfile
-    - docker build --pull --cache-from "$NGINX_TAG:latest" -t "$NGINX_TAG:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA" -t "$NGINX_TAG" . -f app/dockerfiles/Dockerfile
-
-    - docker push "$PHP_TAG:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
-    - docker push "$PHP_TAG:$CI_COMMIT_REF_SLUG"
-    - docker push "$NGINX_TAG:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
-    - docker push "$NGINX_TAG:$CI_COMMIT_REF_SLUG"
+    - docker pull "$CI_REGISTRY_IMAGE:latest" || true
+    - docker build --pull --cache-from  "$CI_REGISTRY_IMAGE:latest" -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA" -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-latest" -t "$CI_REGISTRY_IMAGE:latest" . -f app/dockerfiles/Dockerfile
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-latest"
+    - docker push "$CI_REGISTRY_IMAGE:latest"
   only:
-    - master
+    - main
 
-
-dockerize:
+dockerize-production:
   image: docker
-  stage: dockerize
-
-  variables:
-    NGINX_TAG: $CI_REGISTRY_IMAGE/nginx
-    PHP_TAG: $CI_REGISTRY_IMAGE/php
+  stage: deploy
 
   services:
     - docker:dind
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker pull "$PHP_TAG:latest" || true
-    - docker pull "$NGINX_TAG:latest" || true
-    - docker build --pull --cache-from  "$PHP_TAG:latest" -t "$PHP_TAG:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA" -t "$PHP_TAG" . -f app/dockerfiles/Dockerfile
-    - docker build --pull --cache-from "$NGINX_TAG:latest" -t "$NGINX_TAG:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA" -t "$NGINX_TAG" . -f app/dockerfiles/Dockerfile
-
-    - docker push "$PHP_TAG:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
-    - docker push "$PHP_TAG"
-    - docker push "$NGINX_TAG:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
-    - docker push "$NGINX_TAG"
-  except:
-    - master
+    - docker pull "$CI_REGISTRY_IMAGE:latest" || true
+    - docker build --pull --cache-from  "$CI_REGISTRY_IMAGE:latest" -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG" . -f app/dockerfiles/Dockerfile
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/

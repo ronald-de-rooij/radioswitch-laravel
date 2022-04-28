@@ -1,13 +1,31 @@
 # Daily development routine
 
-**Note:** if this is your first time working on this project, please check out [the local setup](local-setup.md) first.
+**Note:** if this is your first time working on this project, please check
+out [the local setup](../initialSetup/localSetup.md) first.
 
 ## Before you start on a new feature
 
-- Ensure Docker Desktop is started (see also **Rebuilding containers**)
+- Ensure your Docker environment is started (see also **Rebuilding containers**)
 - `git pull --ff-only` to update your repository
 - `docker exec app-php composer install` in case new packages were installed
 - `docker exec app-php php artisan migrate` in case database changes were made
+
+## IDE Helper
+
+Execute the following commands:
+
+```bash
+sudo docker exec app-php php artisan ide-helper:models -M
+sudo docker exec app-php php artisan ide-helper:generate
+```
+
+This allows you to use constructs like
+
+```injectablephp
+/**
+ * @mixin IdeHelperUser
+ */
+```
 
 ## Updating Composer
 
@@ -39,6 +57,7 @@ macOS/Linux:
 ## Code climate
 
 You can locally run the code climate checks by executing the following command in the `src` directory:
+
   ```
   docker run -it --rm \
   -v ${PWD}:/app \
@@ -48,13 +67,12 @@ You can locally run the code climate checks by executing the following command i
   ```
 
 ## Laravel Telescope
-By default the project comes with some developer support in the form of [Laravel Telescope](https://laravel.com/docs/8.x/telescope).
-This tool keeps track of everything you need to debug problems.
-Including queries, gates, rquest, exceptions etc. 
-This information can be found at the `/telescope` endpoint. E.G http://admin.mtl.test/telescope.
-Note that this is only available when Laravel is running with environment `local`.
+
+By default the project comes with some developer support in the form
+of [Laravel Telescope](https://laravel.com/docs/9.x/telescope). This tool keeps track of everything you need to debug
+problems. Including queries, gates, request, exceptions etc. This information can be found at the `/telescope` endpoint.
+E.G http://admin.eteq.test/telescope. Note that this is only available when Laravel is running with environment `local`.
 
 ## Jobs, queues and Mailhog
 
 Mailhog can be reached at `http://localhost:8025/`. It is a fake SMTP system where you can send test e-mails to.
-

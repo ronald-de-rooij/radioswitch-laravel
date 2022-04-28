@@ -1,4 +1,4 @@
-FROM php:8.0.3-fpm-alpine
+FROM php:8.1.5-fpm-alpine
 WORKDIR /var/www
 
 # Install system dependencies
@@ -21,7 +21,7 @@ RUN apk add --no-cache \
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-jpeg \
  && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
- && docker-php-ext-install zip exif pcntl mbstring exif bcmath gd pdo pdo_pgsql pgsql \
+ && docker-php-ext-install opcache zip exif pcntl mbstring exif bcmath gd pdo pdo_pgsql pgsql \
  && pecl install redis \
  && docker-php-ext-enable redis
 
