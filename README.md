@@ -47,6 +47,7 @@ Follow the instruction and fill in the application details when asked.
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init sh app/template/install.sh`
 - Check if there are any code climate errors in the generated code, as described in the [Daily development routine](docs/local-daily.md#code-climate).
   If errors are found, fix them.
-- `git add * -A && git commit -m 'Laravel template installation' && git push -u origin develop`
+- `git add -A && git commit -m 'Laravel template installation' && git push -u origin develop`
+- `
 
 Now continue with the local setup by following the guide [local-setup](docs/local-setup.md#Configuring-the-hosts-file) from chapter 'Configuring the hosts file' 
