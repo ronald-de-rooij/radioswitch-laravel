@@ -36,9 +36,10 @@ cd "${SCRIPT_DIRECTORY}" || exit
 DOCKER_USER=$(id -u)":"$(id -g)
 export DOCKER_USER
 
-read -p "Enter application name [Laravel]: " var
+read -p "Enter application name [Laravel] : " var
 APP_NAME=${var:-Laravel}
 echo "${APP_NAME}"
+APP_NAME="\x22${var:-Laravel}\x22" # always enclose in double quotes so it never breaks.
 export APP_NAME
 
 read -p "Enter application url [app.test]: " var
