@@ -9,7 +9,6 @@ networks:
 
 services:
   php:
-    container_name: app-php
     build:
       context: ./
       dockerfile: dockerfiles/dev.Dockerfile
@@ -29,7 +28,6 @@ services:
       - ./docker-configs/php/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini
 
   nginx:
-    container_name: app-nginx
     image: nginx:alpine
     working_dir: /var/www
     depends_on:
@@ -42,7 +40,6 @@ services:
       - ../src:/var/www
       - ./docker-configs/nginx:/etc/nginx/conf.d/
   postgres:
-    container_name: app-postgres
     image: postgres:14-alpine
     volumes:
       - db-data:/var/lib/postgresql/data"
@@ -53,13 +50,11 @@ services:
     ports:
       - "5432:5432"
   mailhog:
-    container_name: app-mailhog
     image: mailhog/mailhog:latest
     ports:
       - 1025:1025
       - 8025:8025
   cron:
-    container_name: app-cron
     build:
       context: .
       dockerfile: dockerfiles/dev.Dockerfile
@@ -69,7 +64,6 @@ services:
       - ../src:/var/www
     command: [ "crond", "-f" ]
   queue:
-    container_name: app-queue
     build:
       context: .
       dockerfile: dockerfiles/dev.Dockerfile
