@@ -42,10 +42,10 @@ echo "${APP_NAME}"
 APP_NAME="\x22${var:-Laravel}\x22" # always enclose in double quotes so it never breaks.
 export APP_NAME
 
-read -p "Enter application url [app.test]: " var
-APP_URL=${var:-app.test}
-echo "${APP_URL}"
-export APP_URL
+read -p "Enter application hostname (without http) [app.test]: " var
+APP_HOSTNAME=${var:-app.test}
+echo "${APP_HOSTNAME}"
+export APP_HOSTNAME
 
 read -p "Enter project abbreviation [app]: " var
 PROJECT_ABBREVIATION=${var:-app}
