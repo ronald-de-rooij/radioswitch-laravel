@@ -34,9 +34,9 @@ In this example we assume we are using the `wolfpackit/projects/mytalentslab/mtl
 - `git pull template master`  
   (If by any change your repo is not clean, `git pull template master --allow-unrelated-histories`)
 - `sudo docker-compose -f app/docker-compose-init.yml build`
-- `git clone git@gitlab.com:wolfpackit/projects/templates/documentation-template.git docs`
+- `git clone git@gitlab.com:wolfpackit/projects/templates/documentation-template.git docs && rm docs/.git -Rf`
 
-Finnaly run the installation script that downloads Laravel and initializes the application. Follow the instruction and
+Finally, run the installation script that downloads Laravel and initializes the application. Follow the instruction and
 fill in the application details when asked.
 
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init dos2unix app/template/*`
