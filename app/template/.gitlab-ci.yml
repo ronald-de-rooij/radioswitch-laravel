@@ -76,7 +76,9 @@ phpunit:
     when: always
     reports:
       junit: src/reports/junit.xml
-      cobertura: src/reports/cobertura.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: src/reports/cobertura.xml
 
   script:
     - php artisan test
