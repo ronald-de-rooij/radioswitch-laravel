@@ -44,7 +44,7 @@ fill in the application details when asked.
 - Check if there are any code climate errors in the generated code, as described in
   the [Daily development routine](laravel-docs/dailyTasks/localTasks.md#code-climate). If errors are found, fix them.
 - `git add -A && git commit -m 'Laravel template installation' && git push -u origin develop`
-- `
+- Update documentation replace {PROJECT_ABBR} with the project abbreviation just filled in.
 
 Now continue with the local setup by following the
 guide [local-setup](laravel-docs/initialSetup/localSetup.md#configuring-the-hosts-file)
@@ -62,13 +62,13 @@ deemed to be useful. A small introduction is given for the package, for details 
 ### Installation
 
 ```shell
-sudo docker exec app-php composer require darkaonline/l5-swagger
+sudo docker exec {PROJECT_ABBR}-php composer require darkaonline/l5-swagger
 ```
 
 Also, make sure to publish the files:
 
 ```
-sudo docker exec app-php php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+sudo docker exec {PROJECT_ABBR}-php php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
 ```
 
 Check the `src/config` folder - there should be a `l5-swagger.php` file in there.
@@ -78,7 +78,7 @@ Check the `src/config` folder - there should be a `l5-swagger.php` file in there
 The package allows you to write Swagger annotations for each API call in your controller.
 
 After updating the annotations in the controllers, you need to update to generate the Swagger documentation to see the
-changes. This can be done with the command: `sudo docker exec app-php php artisan l5-swagger:generate`
+changes. This can be done with the command: `sudo docker exec {PROJECT_ABBR}-php php artisan l5-swagger:generate`
 
 This procedure can be automated by setting `L5_SWAGGER_GENERATE_ALWAYS` in the `.env` file from
 `false` to `true` and rebuild the containers.
@@ -141,13 +141,13 @@ to `_ide_helper.php`.
 Execute the following command to rescan and regenerate everything:
 
 ```shell
-sudo docker exec app-php php artisan ide-helper:generate
+sudo docker exec {PROJECT_ABBR}-php php artisan ide-helper:generate
 ```
 
 Also, execute:
 
 ```shell
-sudo docker exec app-php php artisan ide:model -M
+sudo docker exec {PROJECT_ABBR}-php php artisan ide:model -M
 ```
 
 This call is used to help autocomplete for Eloquent models. The `-M` parameter avoids the package from adding to
@@ -193,7 +193,7 @@ SENTRY_TRACES_SAMPLE_RATE=
 Execute the following in the console:
 
 ```shell
-sudo docker exec app-php php artisan sentry:generate-message
+sudo docker exec {PROJECT_ABBR}-php php artisan sentry:generate-message
 ```
 
 A message should now show up in Sentry.

@@ -7,16 +7,16 @@ out [the local setup](../initialSetup/localSetup.md) first.
 
 - Ensure your Docker environment is started (see also **Rebuilding containers**)
 - `git pull --ff-only` to update your repository
-- `docker exec app-php composer install` in case new packages were installed
-- `docker exec app-php php artisan migrate` in case database changes were made
+- `docker exec {PROJECT_ABBR}-php composer install` in case new packages were installed
+- `docker exec {PROJECT_ABBR}-php php artisan migrate` in case database changes were made
 
 ## IDE Helper
 
 Execute the following commands:
 
 ```bash
-sudo docker exec app-php php artisan ide-helper:models -M
-sudo docker exec app-php php artisan ide-helper:generate
+sudo docker exec {PROJECT_ABBR}-php php artisan ide-helper:models -M
+sudo docker exec {PROJECT_ABBR}-php php artisan ide-helper:generate
 ```
 
 This allows you to use constructs like
@@ -31,7 +31,7 @@ This allows you to use constructs like
 
 To let Composer update all packages, run:
 
-- `docker exec app-php composer update`
+- `docker exec {PROJECT_ABBR}-php composer update`
 
 Please keep your updates separate from regular commits that only change code. Installing new packages as part of a
 feature is fine, but to reduce potential merge conflicts, execute updates separately.

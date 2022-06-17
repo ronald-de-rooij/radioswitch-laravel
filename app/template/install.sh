@@ -75,6 +75,8 @@ export EMAIL_FROM_ADDRESS
 echo "Replacing env variables in template"
 envsubst < general-stub.env > tmpfile
 sh env-merge.sh ../../src/.env tmpfile
+rm ../../src/.env.example
+cp ../../src/.env ../../src/.env.example
 rm tmpfile
 
 echo "Create docker.env file"

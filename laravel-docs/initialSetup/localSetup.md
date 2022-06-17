@@ -83,8 +83,8 @@ The application should now be available on the specified hostname.
 
 To get everything set up and ready, execute the following commands:
 
-* `docker exec app-php composer install`
-* `docker exec app-php php artisan key:generate`
+* `docker exec {PROJECT_ABBR}-php composer install`
+* `docker exec {PROJECT_ABBR}-php php artisan key:generate`
 
 ## Optional
 
