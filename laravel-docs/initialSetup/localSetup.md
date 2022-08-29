@@ -10,7 +10,7 @@ Welcome! If you're new to the team or you've received a new laptop, do the follo
 ## Clone the project
 
 * Clone the repository in your projects folder
-* Switch to the `develop` branch
+* Switch to the `main` branch
 
 ## Prepare the environment files
 

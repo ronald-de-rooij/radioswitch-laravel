@@ -53,7 +53,7 @@ figure it out.
   needed.
 - Make sure to move the status of issues in the issue tracker along with their branches/pull requests.
 - If your branch gets old, pull `main` into the branch if necessary. Also check if this is necessary before making a PR,
-  as this is the time for the developer of the branch to solve any merge conflicts there may be with the develop branch.
+  as this is the time for the developer of the branch to solve any merge conflicts there may be with the branch in development.
 - Be sure to always commit/push to your working branch regardless of the state of the code, so that all changes get
   backed up to the remote server.
 

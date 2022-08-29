@@ -30,7 +30,7 @@ In this example we assume we are using the `wolfpackit/projects/mytalentslab/mtl
   folder.
 - `cd backend`
 - `git remote add template git@gitlab.com:wolfpackit/projects/templates/laravel.git`
-- `git checkout -B develop`
+- `git checkout -B main`
 - `git pull template master`  
   (If by any change your repo is not clean, `git pull template master --allow-unrelated-histories`)
 - `sudo docker-compose -f app/docker-compose-init.yml build`
@@ -43,7 +43,7 @@ fill in the application details when asked.
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init sh app/template/install.sh`
 - Check if there are any code climate errors in the generated code, as described in
   the [Daily development routine](laravel-docs/dailyTasks/localTasks.md#code-climate). If errors are found, fix them.
-- `git add -A && git commit -m 'Laravel template installation' && git push -u origin develop`
+- `git add -A && git commit -m 'Laravel template installation' && git push -u origin main`
 - Update documentation replace {PROJECT_ABBR} with the project abbreviation just filled in.
 
 Now continue with the local setup by following the

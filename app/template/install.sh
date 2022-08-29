@@ -88,6 +88,9 @@ cp .gitignore ../../src
 echo "Create phpunit configuration"
 cp phpunit.xml ../../src
 
+echo "Create reports folder"
+cp reports ../../src -rf
+
 echo "Create default .gitlab-ci"
 cp .gitlab-ci.yml ../../
 
