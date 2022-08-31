@@ -1,5 +1,4 @@
 FROM php:8.1.5-fpm-alpine
-WORKDIR /var/www
 
 # Install system dependencies
 RUN apk add --no-cache \
