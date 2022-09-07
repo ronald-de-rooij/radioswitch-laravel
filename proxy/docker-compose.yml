@@ -5,7 +5,6 @@ services:
       context: ./
       dockerfile: Dockerfile
     image: jwilder/nginx-proxy
-    restart: always
     container_name: nginx-proxy
     ports:
       - "80:80"
@@ -17,7 +16,6 @@ services:
       - letsencrypt-html:/usr/share/nginx/html
   letsencrypt-proxy:
     image: jrcs/letsencrypt-nginx-proxy-companion
-    restart: always
     container_name: letsencrypt-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
