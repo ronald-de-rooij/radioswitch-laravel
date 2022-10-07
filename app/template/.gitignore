@@ -200,5 +200,5 @@ modules.xml
 # End of https://www.toptal.com/developers/gitignore/api/git,composer,phpstorm+all,intellij+all
 
 # Reason: generated test and coverage reports
-!reports/.gitkeep
 reports/*
+!reports/.gitkeep
