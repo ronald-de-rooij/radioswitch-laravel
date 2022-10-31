@@ -87,7 +87,7 @@ codestyle:
   stage: inspect
   dependencies: []
   script:
-    - vendor/bin/phpcs --basepath=.. --report=full --report-\\Micheh\\PhpCodeSniffer\\Report\\Gitlab=reports/code-climate.json --standard=PSR12 --extensions=php --ignore=app/Support/helpers.php app
+    - vendor/bin/pint --test --format=checkstyle
   artifacts:
     expire_in: 1 month
     when: always

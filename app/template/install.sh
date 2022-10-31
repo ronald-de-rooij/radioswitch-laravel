@@ -98,5 +98,18 @@ cp .gitlab-ci.yml ../../
 # Change directory to Laravel project
 cd ../../src
 
-# Install php code sniffer
-/usr/bin/composer require --dev micheh/phpcs-gitlab squizlabs/php_codesniffer
+# Install PINT
+/usr/bin/composer require laravel/pint --dev
+
+# Copy PINT config
+cp pint.json ../../src
+cp pre-commit.sample ../../.git/hooks/pre-commit
+chmod +x ../../.git/hooks/pre-commit
+
+# Enable auto prefixing Jira ticket number in commit messages
+read -p "Would you like to enable auto prefixing your commit messages with the Jira ticket number from the current branch? [y/n]: " var
+if [ "$var" != "${var#[Yy]}" ] ;then
+    cp prepare-commit-msg.sample ../../.git/hooks/prepare-commit-msg
+    chmod +x ../../.git/hooks/prepare-commit-msg
+else
+
