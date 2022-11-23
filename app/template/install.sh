@@ -94,13 +94,11 @@ cp reports ../../src -rf
 echo "Create default .gitlab-ci"
 cp .gitlab-ci.yml ../../
 
+echo "Create default pint.json"
+cp pint.json ../../src
 
 # Change directory to Laravel project
 cd ../../src
 
 # Install PINT
 /usr/bin/composer require laravel/pint --dev
-
-# Copy PINT config
-cp pint.json ../../src
-
