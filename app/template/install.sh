@@ -102,3 +102,6 @@ cd ../../src
 
 # Install PINT
 /usr/bin/composer require laravel/pint --dev
+
+# Run PINT to correct Laravel's coding style to PSR-12
+vendor/bin/pint
