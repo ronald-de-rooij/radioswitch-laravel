@@ -94,9 +94,14 @@ cp reports ../../src -rf
 echo "Create default .gitlab-ci"
 cp .gitlab-ci.yml ../../
 
+echo "Create default pint.json"
+cp pint.json ../../src
 
 # Change directory to Laravel project
 cd ../../src
 
-# Install php code sniffer
-/usr/bin/composer require --dev micheh/phpcs-gitlab squizlabs/php_codesniffer
+# Install PINT
+/usr/bin/composer require laravel/pint --dev
+
+# Run PINT to correct Laravel's coding style to PSR-12
+vendor/bin/pint
