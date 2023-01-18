@@ -90,6 +90,10 @@ To get everything set up and ready, execute the following commands:
 
 ### Tinker
 
+Tinker is a REPL which is [included in Laravel](https://laravel.com/docs/9.x/artisan) by default.
+
+By default you might get an error (psysh) about a directory that's not set correctly.
+
 To get Tinker to work, add the following to your `.env` file:
 
 ```dotenv
