@@ -88,6 +88,14 @@ To get everything set up and ready, execute the following commands:
 
 ## Optional
 
+### Tinker
+
+To get Tinker to work, add the following to your `.env` file:
+
+```dotenv
+XDG_CONFIG_HOME=/tmp
+```
+
 ### Database connection
 
 The Postgres database is exposed to your host machine. You can connect to it using you favorite DB manager, with
