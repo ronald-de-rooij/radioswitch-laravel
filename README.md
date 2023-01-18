@@ -55,6 +55,20 @@ from the chapter 'Configuring the hosts file'.
 In this file recommendations are made on packages to use. Those packages are already used in different projects and are
 deemed to be useful. A small introduction is given for the package, for details always check the repository.
 
+## Tinker
+
+Tinker is a REPL which is [included in Laravel](https://laravel.com/docs/9.x/artisan) by default.
+
+### Installation
+
+By default you might get an error (psysh) about a directory that's not set correctly.
+
+To get Tinker to work, add the following to your `.env` file:
+
+```dotenv
+XDG_CONFIG_HOME=/tmp
+```
+
 ## l5-swagger / API Documentation
 
 **Repo:** https://github.com/DarkaOnLine/L5-Swagger
