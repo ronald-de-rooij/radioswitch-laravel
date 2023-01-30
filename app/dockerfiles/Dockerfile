@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     libpng-dev \
     libxml2-dev \
     libzip-dev \
+    linux-headers \
     oniguruma-dev \
     pcre-dev \
     postgresql-dev	\
