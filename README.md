@@ -52,8 +52,8 @@ fill in the application details when asked.
 Often, projects have multiple names; the full project name with capital letters (`Learning By Testing`), a slug (
 `learning-by-testing`) and an abbreviation (`lbt`). The abbreviated version is optional; you can also just use the slug.
 
-- `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init dos2unix app/template/*`
-- `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init sh app/template/install.sh`
+- `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app-init dos2unix app/template/*`
+- `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app-init sh app/template/install.sh`
 - Check if there are any code climate errors in the generated code, as described in
   the [Daily development routine](laravel-docs/dailyTasks/localTasks.md#code-climate). If errors are found, fix them.
 - `git add -A && git commit -m 'Laravel template installation' && git push -u origin main`

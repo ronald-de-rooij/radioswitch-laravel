@@ -63,7 +63,7 @@ You can locally run the code climate checks by executing the following command i
   -v ${PWD}:/app \
   -w /app \
   -u $(id -u):$(id -g) \
-  app_init sh -c 'cd src && vendor/bin/phpcs --basepath=.. --report=full --standard=PSR12 --extensions=php --ignore=app/Support/helpers.php app'
+  app-init sh -c 'cd src && vendor/bin/phpcs --basepath=.. --report=full --standard=PSR12 --extensions=php --ignore=app/Support/helpers.php app'
   ```
 
 ## Laravel Telescope
