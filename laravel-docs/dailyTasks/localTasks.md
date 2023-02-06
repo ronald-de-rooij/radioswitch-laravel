@@ -7,8 +7,8 @@ out [the local setup](../initialSetup/localSetup.md) first.
 
 - Ensure your Docker environment is started (see also **Rebuilding containers**)
 - `git pull --ff-only` to update your repository
-- `docker exec {PROJECT_ABBR}-php composer install` in case new packages were installed
-- `docker exec {PROJECT_ABBR}-php php artisan migrate` in case database changes were made
+- `sudo docker exec {PROJECT_ABBR}-php composer install` in case new packages were installed
+- `sudo docker exec {PROJECT_ABBR}-php php artisan migrate` in case database changes were made
 
 ## IDE Helper
 
@@ -31,7 +31,7 @@ This allows you to use constructs like
 
 To let Composer update all packages, run:
 
-- `docker exec {PROJECT_ABBR}-php composer update`
+- `sudo docker exec {PROJECT_ABBR}-php composer update`
 
 Please keep your updates separate from regular commits that only change code. Installing new packages as part of a
 feature is fine, but to reduce potential merge conflicts, execute updates separately.
@@ -44,13 +44,6 @@ Code changes made in the repository are immediately visible in your local applic
 If changes are made to either Docker files or network related environment variables, you need to rerun the starting
 command, assuming you are in the project's root directory:
 
-Windows:
-
-* `cd app`
-* `docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`
-
-macOS/Linux:
-
 * `cd app`
 * `sudo docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`
 
@@ -59,7 +52,7 @@ macOS/Linux:
 You can locally run the code climate checks by executing the following command in the `src` directory:
 
   ```
-  docker run -it --rm \
+  sudo docker run -it --rm \
   -v ${PWD}:/app \
   -w /app \
   -u $(id -u):$(id -g) \
