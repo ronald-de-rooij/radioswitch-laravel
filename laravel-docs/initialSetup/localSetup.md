@@ -76,7 +76,7 @@ Execute the following commands (Windows):
 
 ### Build the Docker containers
 
-To build, execute the following commands: (note, this step can take some time)
+To build, execute the following commands: (note: this step can take some time)
 
 * `cd app`
 * `sudo docker-compose --env-file ../src/.env up -d --build`
@@ -124,7 +124,7 @@ When debugging is enabled, don't forget to configure your IDE to accept the inco
 
 Steps to take in PHPStorm:
 
-- Go to settings (ctr+alt+s)
+- Go to settings (`Ctrl+Alt+S`)
 - Navigate to PHP -> Server
 - Add a new one called 'docker' (this name needs to be identical to the `PHP_IDE_CONFIG` servername, which is defined in
   the `docker-compose` file under the php service.
