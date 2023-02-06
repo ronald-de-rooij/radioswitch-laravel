@@ -4,8 +4,22 @@ Welcome! If you're new to the team or you've received a new laptop, do the follo
 
 ## Install the required software
 
-* On Windows/MacOS: [install Docker Desktop](https://www.docker.com/products/docker-desktop).
-* On Windows: [install Git bash](https://gitforwindows.org/)
+* On Windows: [install WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)
+* On MacOS: [install Docker Desktop](https://www.docker.com/products/docker-desktop).
+
+### Install Docker (Windows and WSL2 / Linux)
+
+See https://docs.docker.com/engine/install/ubuntu/ for a detailed explanation on steps taken.
+
+Execute the following:
+
+```shell
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
 
 ## Clone the project
 
@@ -57,22 +71,12 @@ First, we need to create the Docker network and start up the reverse proxy.
 
 Execute the following commands (Windows):
 
-* `docker network create nginx-proxy`
-* `docker-compose -f proxy/docker-compose.yml up -d`
-
-On macOS/Linux:
-
 * `sudo docker network create nginx-proxy`
 * `sudo docker-compose -f proxy/docker-compose.yml up -d`
 
 ### Build the Docker containers
 
 To build, execute the following commands: (note, this step can take some time)
-
-* `cd app`
-* `docker-compose --env-file ../src/.env up -d --build`\
-
-On macOS/Linux:
 
 * `cd app`
 * `sudo docker-compose --env-file ../src/.env up -d --build`
@@ -83,8 +87,8 @@ The application should now be available on the specified hostname.
 
 To get everything set up and ready, execute the following commands:
 
-* `docker exec {PROJECT_ABBR}-php composer install`
-* `docker exec {PROJECT_ABBR}-php php artisan key:generate`
+* `sudo docker exec {PROJECT_ABBR}-php composer install`
+* `sudo docker exec {PROJECT_ABBR}-php php artisan key:generate`
 
 ## Optional
 

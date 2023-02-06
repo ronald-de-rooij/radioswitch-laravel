@@ -43,7 +43,7 @@ Now, add the starter project.
 - `git pull template master`  
   (If by any change your repo was not clean, `git pull template master --allow-unrelated-histories`)
 - `sudo docker-compose -f app/docker-compose-init.yml build`
-   - If this doesn't work, try `sudo docker system prune`
+    - If this doesn't work, try `sudo docker system prune`
 - `git clone git@gitlab.com:wolfpackit/projects/templates/documentation-template.git docs && rm docs/.git -Rf`
 
 Finally, run the installation script that downloads Laravel and initializes the application. Follow the instruction and
@@ -53,6 +53,14 @@ Often, projects have multiple names; the full project name with capital letters 
 `learning-by-testing`) and an abbreviation (`lbt`). The abbreviated version is optional; you can also just use the slug.
 
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app-init dos2unix app/template/*`
+
+> ⚠ **Warning:** ⚠
+>
+> Before you run the next script, ensure you have all your necessary data ready! The script does not work well if it
+> is interrupted!
+>
+> Also, unless you need to run two databases side-by-side, just keep the default names for all the database questions.
+
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app-init sh app/template/install.sh`
 - Check if there are any code climate errors in the generated code, as described in
   the [Daily development routine](laravel-docs/dailyTasks/localTasks.md#code-climate). If errors are found, fix them.
