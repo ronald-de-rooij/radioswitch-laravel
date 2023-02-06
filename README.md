@@ -20,31 +20,44 @@ Local environment has the following packages installed:
 
 ## Preparation
 
-- Ask your PM for a clean repository. It must be empty - that also means no auto-generated README!
-- Configure ssh key that has access to both your new repo and
+- Ask your PM for a clean repository. It must be _completely_ empty - that also means no auto-generated README!
+- Configure an SSH key that has access to both your newly created repo and
   the `git@gitlab.com:wolfpackit/projects/templates/laravel.git` repo.
 
 In this example we assume we are using the `wolfpackit/projects/mytalentslab/mtl/api-backend.git` for our new project
 
+First, clone the repository so that it's available locally.
+
+- Navigate to your `projects` folder.
 - `git clone wolfpackit/projects/mytalentslab/mtl/api-backend.git backend`, this clones the repo into the `backend`
   folder.
 - `cd backend`
+
+Note: the use of the `backend` folder in this case is entirely optional. Omitting `backend` means that the created
+folder uses the name of the repo itself (in this case `api-backend`).
+
+Now, add the starter project.
+
 - `git remote add template git@gitlab.com:wolfpackit/projects/templates/laravel.git`
 - `git checkout -B main`
 - `git pull template master`  
-  (If by any change your repo is not clean, `git pull template master --allow-unrelated-histories`)
+  (If by any change your repo was not clean, `git pull template master --allow-unrelated-histories`)
 - `sudo docker-compose -f app/docker-compose-init.yml build`
 - `git clone git@gitlab.com:wolfpackit/projects/templates/documentation-template.git docs && rm docs/.git -Rf`
 
 Finally, run the installation script that downloads Laravel and initializes the application. Follow the instruction and
 fill in the application details when asked.
 
+Often, projects have multiple names; the full project name with capital letters (`Learning By Testing`), a slug (
+`learning-by-testing`) and an abbreviation (`lbt`). The abbreviated version is optional.
+
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init dos2unix app/template/*`
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init sh app/template/install.sh`
 - Check if there are any code climate errors in the generated code, as described in
   the [Daily development routine](laravel-docs/dailyTasks/localTasks.md#code-climate). If errors are found, fix them.
 - `git add -A && git commit -m 'Laravel template installation' && git push -u origin main`
-- Update documentation replace {PROJECT_ABBR} with the project abbreviation just filled in.
+- Update the documentation and replace all instances of `{PROJECT_ABBR}` with the project abbreviation you just filled
+  in.
 
 Now continue with the local setup by following the
 guide [local-setup](laravel-docs/initialSetup/localSetup.md#configuring-the-hosts-file)
@@ -58,6 +71,10 @@ deemed to be useful. A small introduction is given for the package, for details 
 ## l5-swagger / API Documentation
 
 **Repo:** https://github.com/DarkaOnLine/L5-Swagger
+
+### Alternative option
+
+Use https://gitlab.com/wolfpackit/projects/templates/laravel-api . This lets you skip several steps.
 
 ### Installation
 
