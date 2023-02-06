@@ -24,17 +24,17 @@ Local environment has the following packages installed:
 - Configure an SSH key that has access to both your newly created repo and
   the `git@gitlab.com:wolfpackit/projects/templates/laravel.git` repo.
 
-In this example we assume we are using the `wolfpackit/projects/mytalentslab/mtl/api-backend.git` for our new project
+In this example we assume we are using the `wolfpackit/projects/homelab/backend-api.git` as our new project.
 
 First, clone the repository so that it's available locally.
 
 - Navigate to your `projects` folder.
-- `git clone wolfpackit/projects/mytalentslab/mtl/api-backend.git backend`, this clones the repo into the `backend`
+- `git clone wolfpackit/projects/homelab/backend-api.git backend`, this clones the repo into the `backend`
   folder.
 - `cd backend`
 
 Note: the use of the `backend` folder in this case is entirely optional. Omitting `backend` means that the created
-folder uses the name of the repo itself (in this case `api-backend`).
+folder uses the name of the repo itself (in this case `backend-api`).
 
 Now, add the starter project.
 
@@ -49,10 +49,22 @@ Now, add the starter project.
 Finally, run the installation script that downloads Laravel and initializes the application. Follow the instruction and
 fill in the application details when asked.
 
-Often, projects have multiple names; the full project name with capital letters (`Learning By Testing`), a slug (
-`learning-by-testing`) and an abbreviation (`lbt`). The abbreviated version is optional; you can also just use the slug.
+Often, projects have multiple names.
 
-- `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app-init dos2unix app/template/*`
+For instance, the full project name with capital letters (`Learning By Testing`) is shown to the user. However, in code,
+it's more practical to use either:
+
+* The `PROJECT_SLUG` - a lowercase kebab-variant (`learning-by-testing`)
+* The `PROJECT_ABBR` - an abbreviated lowercase variant (`lbt`).
+
+Abbreviations are only necessary for long names. If the `PROJECT_SLUG` is short enough to use as a hostname, use that
+instead of an abbreviation.
+
+Execute the following:
+
+```shell
+sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app-init dos2unix app/template/*
+```
 
 > ⚠ **Warning:** ⚠
 >
@@ -61,12 +73,19 @@ Often, projects have multiple names; the full project name with capital letters 
 >
 > Also, unless you need to run two databases side-by-side, just keep the default names for all the database questions.
 
-- `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app-init sh app/template/install.sh`
+Execute the following:
+
+```shell
+sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app-init sh app/template/install.sh
+```
+
+The hostname for local development is either `PROJECT_ABBR.test` or `PROJECT_SLUG.test`.
+
 - Check if there are any code climate errors in the generated code, as described in
   the [Daily development routine](laravel-docs/dailyTasks/localTasks.md#code-climate). If errors are found, fix them.
 - `git add -A && git commit -m 'Laravel template installation' && git push -u origin main`
-- Update the documentation and replace all instances of `{PROJECT_ABBR}` with the project abbreviation you just filled
-  in.
+- Update the documentation and replace all instances of `{PROJECT_ABBR}` with the abbreviation you chose.
+- Update the documentation and replace all instances of `{PROJECT_SLUG}` with the slug you chose.
 
 Now continue with the local setup by following the
 guide [local-setup](laravel-docs/initialSetup/localSetup.md#configuring-the-hosts-file)

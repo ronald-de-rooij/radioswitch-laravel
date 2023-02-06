@@ -64,7 +64,7 @@ You can locally run the code climate checks by executing the following command i
 By default the project comes with some developer support in the form
 of [Laravel Telescope](https://laravel.com/docs/9.x/telescope). This tool keeps track of everything you need to debug
 problems. Including queries, gates, request, exceptions etc. This information can be found at the `/telescope` endpoint.
-E.G http://admin.eteq.test/telescope. Note that this is only available when Laravel is running with environment `local`.
+E.G http://admin.{PROJECT_ABBR}.test/telescope. Note that this is only available when Laravel is running with environment `local`.
 
 ## Jobs, queues and Mailhog
 

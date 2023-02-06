@@ -38,9 +38,9 @@ the `docker-compose`
 of the application that has to handle the traffic. e.g:
 
 ```environment:
-VIRTUAL_HOST: 'acc.euroteq.wolfpackit.nl'
+VIRTUAL_HOST: 'acc.{PROJECT_SLUG}.wolfpackit.nl'
 # Only needed if SSL should be configured
-LETSENCRYPT_HOST: 'acc.euroteq.wolfpackit.nl'
+LETSENCRYPT_HOST: 'acc.{PROJECT_SLUG}.wolfpackit.nl'
 ```
 
 This piece of code is included in the backend docker-compose file from the project. The rest is automatically handled by
@@ -56,8 +56,8 @@ SSL certificate renewal.
 It requires two variables:
 
 ```
-LETSENCRYPT_HOST: 'acc.euroteq.wolfpackit.nl'
-DEFAULT_EMAIL=dev-euroteq@wolfpackit.nl
+LETSENCRYPT_HOST: 'acc.{PROJECT_SLUG}.wolfpackit.nl'
+DEFAULT_EMAIL=dev-{PROJECT_SLUG}@wolfpackit.nl
 ```
 
 The default email is the address that will be notified on important news regarding this certificate. This could be about

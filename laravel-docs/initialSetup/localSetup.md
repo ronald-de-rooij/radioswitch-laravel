@@ -41,9 +41,9 @@ Copy the files and rename them to `.env` by executing the following commands in 
 Open `src/.env` in an editor and fill in the following fields:
 
 ```dotenv
-# URL for the application (eteq.test)
+# URL for the application ({PROJECT_ABBR}.test)
 APP_URL=
-# URL for the API (e.g. api.eteq.test)
+# URL for the API (e.g. api.{PROJECT_ABBR}.test)
 API_HOSTNAME=
 ```
 
