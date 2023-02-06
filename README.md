@@ -43,13 +43,14 @@ Now, add the starter project.
 - `git pull template master`  
   (If by any change your repo was not clean, `git pull template master --allow-unrelated-histories`)
 - `sudo docker-compose -f app/docker-compose-init.yml build`
+   - If this doesn't work, try `sudo docker system prune`
 - `git clone git@gitlab.com:wolfpackit/projects/templates/documentation-template.git docs && rm docs/.git -Rf`
 
 Finally, run the installation script that downloads Laravel and initializes the application. Follow the instruction and
 fill in the application details when asked.
 
 Often, projects have multiple names; the full project name with capital letters (`Learning By Testing`), a slug (
-`learning-by-testing`) and an abbreviation (`lbt`). The abbreviated version is optional.
+`learning-by-testing`) and an abbreviation (`lbt`). The abbreviated version is optional; you can also just use the slug.
 
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init dos2unix app/template/*`
 - `sudo docker run -it --rm -v ${PWD}:/app -w /app -u $(id -u):$(id -g) app_init sh app/template/install.sh`
