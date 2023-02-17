@@ -15,10 +15,10 @@ The following approach is used during development of the software.
 
 - Ensure your local repository is up to date.
 - Create a new branch from `main`.
-- The name of the branch must adhere to a naming convention, which is `feature/ETEQ-123-description`, where `123`
+- The name of the branch must adhere to a naming convention, which is `feature/PROJECT_ABBR-123-description`, where `123`
   is the Jira ticket number.
 - Make your commits in the branch
-    - Commit messages must start with `[ETEQ-123]`
+    - Commit messages must start with `[PROJECT_ABBR-123]`
     - Commit messages must be descriptive and consist of at least 7 characters (so "Fixed!" is not enough).
 - Create a Merge Request for the branch on Gitlab
 - When your Merge Request is approved, it is *your* responsibility to merge the branch back into `main`.
@@ -31,7 +31,7 @@ the eventual merging back to `main` easier.
 
 - Do `git checkout main`
 - Update it with `git pull --ff-only`
-- Then, do `git checkout feature/ETEQ-123-description` (the branch you need to update)
+- Then, do `git checkout feature/PROJECT_ABBR-123-description` (the branch you need to update)
 - Then, do `git merge main --no-ff`
 - Make sure the commit message follows the correct format by doing `git commit --amend`
 
