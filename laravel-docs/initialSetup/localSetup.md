@@ -96,7 +96,7 @@ To get everything set up and ready, execute the following commands:
 
 Tinker is a REPL which is [included in Laravel](https://laravel.com/docs/9.x/artisan) by default.
 
-By default you might get an error (psysh) about a directory that's not set correctly.
+By default you might get an error (`psysh`) about a directory that's not set correctly.
 
 To get Tinker to work, add the following to your `.env` file:
 
@@ -117,8 +117,8 @@ mails are caught and can be viewed in your browser at http://localhost:8025 .
 ### PHP Debugging
 
 Debugging your PHP code can be useful at some times. The docker configuration incorporates the ability to do that out of
-the box. The only thing you need to do is to set the `XDEBUG_MODE` to `develop,debug` in `/app/docker.env`. Be sure
-to restart the docker after making changes to the `/app/docker.env`.
+the box. The only thing you need to do is to set the `XDEBUG_MODE` to `develop,debug` in `/app/docker.env`. Be sure to
+restart the docker after making changes to the `/app/docker.env`.
 
 When debugging is enabled, don't forget to configure your IDE to accept the incoming debugging connection.
 
@@ -134,13 +134,13 @@ Steps to take in PHPStorm:
 
 Image ![PHPStorm debug config](../assets/phpstorm_debug.png) shows a complete overview of server.
 
-To tell the docker service where the IDE is located on your windows machine, you need to save the ip in an environment
+To tell the docker service where the IDE is located on your Windows machine, you need to save the ip in an environment
 variable. Execute the following command in WSL:
 
 - `printf "export XDEBUG_CLIENT_HOST=\$(awk \'/nameserver/ {print \$2}\' /etc/resolv.conf) \n" >> ~/.bashrc`
 - `source ~/.bashrc`
 
-This exports the ip address each time you login into WSL. Thus above commands are only need to be used once.
+This exports the IP address each time you login into WSL. Thus above commands are only need to be used once.
 
 To listen to PHP Debug connections click on the small red phone in the top right corner.
 ![PHP Debug icon](../assets/php_debug_icon.png)
