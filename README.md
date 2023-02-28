@@ -42,7 +42,7 @@ Now, add the starter project.
 - `git checkout -B main`
 - `git pull template master`  
   (If by any change your repo was not clean, `git pull template master --allow-unrelated-histories`)
-- `sudo docker-compose -f app/docker-compose-init.yml build`
+- `sudo docker compose --file ./app/docker-compose-init.yml build`
     - If this doesn't work, try `sudo docker system prune`
 - `git clone git@gitlab.com:wolfpackit/projects/templates/documentation-template.git docs && rm docs/.git -Rf`
 

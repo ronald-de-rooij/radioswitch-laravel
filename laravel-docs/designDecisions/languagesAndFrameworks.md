@@ -13,9 +13,6 @@ This is a known tech stack for smaller-scale projects that allows rapid developm
 
 ![Server setup](../assets/server_setup.png)
 
-For the backend application we use two different `docker-compose` files. The first one contains all needed images for
-the backend/api. The second is a simple Nginx reverse proxy that handles the incoming server traffic.
-
 For the backend application we use two different docker-compose files. The first one contains all needed images for the
 backend/api. The second is a simple Nginx reverse proxy that handles the incoming server traffic. The exact steps to
 take, for getting the application to run using these dockers, you can checkout
@@ -75,4 +72,4 @@ automated using Gitlab CI / CD.
 The Docker can be built using the following command:
 
 * `cd app`
-* `docker-compose --env-file ../src/.env build`
+* `docker compose --env-file ../src/.env build`

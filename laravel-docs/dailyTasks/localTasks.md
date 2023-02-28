@@ -45,7 +45,7 @@ If changes are made to either Docker files or network related environment variab
 command, assuming you are in the project's root directory:
 
 * `cd app`
-* `sudo docker-compose -f docker-compose-local.yml --env-file ../src/.env up -d --build`
+* `sudo docker compose --file ./docker-compose-local.yml --env-file ../src/.env up -d --build`
 
 ## Code climate
 
