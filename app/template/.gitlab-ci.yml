@@ -87,7 +87,7 @@ codestyle:
   stage: inspect
   dependencies: []
   script:
-    - src/vendor/bin/pint --test --format=gitlab --config=src/pint.json
+    - vendor/bin/pint --test --format=gitlab --config=pint.json
 
 dockerize-acceptance:
   image: docker
