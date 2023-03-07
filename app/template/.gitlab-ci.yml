@@ -87,12 +87,7 @@ codestyle:
   stage: inspect
   dependencies: []
   script:
-    - vendor/bin/pint --test --format=checkstyle
-  artifacts:
-    expire_in: 1 month
-    when: always
-    reports:
-      codequality: src/reports/code-climate.json
+    - vendor/bin/pint --test --format=gitlab --config=pint.json
 
 dockerize-acceptance:
   image: docker

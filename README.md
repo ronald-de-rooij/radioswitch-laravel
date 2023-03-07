@@ -242,3 +242,29 @@ sudo docker exec {PROJECT_ABBR}-php php artisan sentry:generate-message
 ```
 
 A message should now show up in Sentry.
+
+## PHPStorm settings
+
+### Auto line length refactor
+> Preferences > Editor > Code Style > PHP > Wrapping & Braces > Chained Method Calls > Select: Chop down if long
+
+### Reformat on Save
+> Preferences > Tools > Action on Save > Enable: Reformat code
+
+### Auto Pint on Save
+> Preferences > Tools > File Watchers > Add
+
+Then add a watcher named `Pint` and apply the following settings:
+
+```
+File Type: PHP
+Scope: Project Files
+Program: $ProjectFileDir$/src/vendor/bin/pint
+Arguments: $FileRelativePath$ --config src/pint.json
+Output paths to refresh: $FileRelativePath$
+Working directory: $ProjectFileDir$
+Advanced options: Enabled only: Trigger the watcher on external changes
+```
+
+Click OK to save and then set the watcher on save:
+> Preferences > Tools > Action on Save > Enable: File Watcher: Pint
