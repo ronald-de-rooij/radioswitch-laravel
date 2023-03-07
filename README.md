@@ -38,16 +38,31 @@ folder uses the name of the repo itself (in this case `backend-api`).
 
 Now, add the starter project.
 
-- `git remote add template git@gitlab.com:wolfpackit/projects/templates/laravel.git`
-- `git checkout -B main`
-- `git pull template master`  
-  (If by any change your repo was not clean, `git pull template master --allow-unrelated-histories`)
-- `sudo docker compose --file ./app/docker-compose-init.yml build`
-    - If this doesn't work, try `sudo docker system prune`
-- `git clone git@gitlab.com:wolfpackit/projects/templates/documentation-template.git docs && rm docs/.git -Rf`
+```shell
+git remote add template git@gitlab.com:wolfpackit/projects/templates/laravel.git
+git checkout -B main
+git pull template master
+```
 
-Finally, run the installation script that downloads Laravel and initializes the application. Follow the instruction and
-fill in the application details when asked.
+If by any change your repo was not clean, execute `git pull template master --allow-unrelated-histories`
+
+Then:
+
+```shell
+sudo docker compose --file ./app/docker-compose-init.yml build
+```
+
+If this doesn't work, try `sudo docker system prune`
+
+Finally:
+
+```shell
+git clone git@gitlab.com:wolfpackit/projects/templates/documentation-template.git docs && rm docs/.git -Rf
+```
+
+## Installation
+
+To make setup easier, this template provides an automated installation script. This will ask a series of questions. To prepare for these questions, make sure to note down the following first.
 
 Often, projects have multiple names.
 
@@ -59,6 +74,8 @@ it's more practical to use either:
 
 Abbreviations are only necessary for long names. If the `PROJECT_SLUG` is short enough to use as a hostname, use that
 instead of an abbreviation.
+
+With this information available, installation can be started!
 
 Execute the following:
 
