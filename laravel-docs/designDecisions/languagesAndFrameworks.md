@@ -4,7 +4,7 @@ This document contains information about how we chose to develop the application
 
 ## Tech Stack
 
-The API and backend are built using PHP8. It uses Laravel 9 as a framework, with PostgreSQL as the database, and it runs
+The API and backend are built using PHP 8.1. It uses Laravel 10 as a framework, with PostgreSQL as the database, and it runs
 on nginx.
 
 This is a known tech stack for smaller-scale projects that allows rapid development and deployment.
