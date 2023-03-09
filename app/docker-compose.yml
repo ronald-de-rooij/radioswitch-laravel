@@ -27,7 +27,6 @@ services:
     volumes:
       - ../src:/var/www
       - ./docker-configs/php/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini
-
   nginx:
     container_name: ${COMPOSE_PROJECT_NAME:-app}-nginx
     image: nginx:alpine
