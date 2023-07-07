@@ -108,6 +108,10 @@ Now continue with the local setup by following the
 guide [local-setup](laravel-docs/initialSetup/localSetup.md#configuring-the-hosts-file)
 from the chapter 'Configuring the hosts file'.
 
+# Post-install actions
+
+* Enable Strict Mode - add `Model::shouldBeStrict(! $this->app->isProduction());` to the `boot()` method of the `AppServiceProvider`.
+
 # Recommended packages
 
 In this file recommendations are made on packages to use. Those packages are already used in different projects and are
