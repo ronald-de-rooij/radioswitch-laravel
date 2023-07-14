@@ -17,6 +17,8 @@ RUN apk add --no-cache \
     postgresql-dev	\
     unzip \
     zip \
+    nodejs \
+    npm \
  && rm -rf /var/cache/apk/*
 
 # Install PHP extensions
@@ -44,13 +46,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY docker-configs/cron/crontab /etc/crontabs/crontab
 RUN cat /etc/crontabs/crontab >> /etc/crontabs/root
 
-
+RUN mkdir /.npm
+RUN chmod -R 777 /.npm
 ################
 # DEV SPECIFIC #
 ################
 #RUN chown -R www-data:www-data .
 #RUN chown -R www-data:www-data /var/www
 ################
-
-
-

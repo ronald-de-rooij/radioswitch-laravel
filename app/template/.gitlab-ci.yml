@@ -7,6 +7,15 @@ stages:
   - build
   - inspect
   - deploy
+  - test
+
+include:
+  - project: 'wolfpackit/projects/internal/security-tooling'
+    ref: master
+    file: '/templates/gitlab-ci.yml'
+  - project: 'wolfpackit/projects/templates/documentation-template'
+    ref: main
+    file: '/.gitlab-ci-docs.yml'
 
 test-pages:
   image: python:3.8-buster
@@ -81,13 +90,20 @@ phpunit:
         path: src/reports/cobertura.xml
 
   script:
-    - php artisan test
+    - touch database/database.sqlite
+    - php artisan config:clear
+    - php artisan test --env=testing
 
 codestyle:
   stage: inspect
   dependencies: []
   script:
     - vendor/bin/pint --test --format=gitlab --config=pint.json
+  artifacts:
+    expire_in: 1 month
+    when: always
+    reports:
+      codequality: src/reports/code-climate.json
 
 dockerize-acceptance:
   image: docker

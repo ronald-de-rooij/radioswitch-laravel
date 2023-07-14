@@ -202,3 +202,5 @@ modules.xml
 # Reason: generated test and coverage reports
 reports/*
 !reports/.gitkeep
+
+public/build

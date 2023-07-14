@@ -16,6 +16,8 @@ RUN apk add --no-cache \
     postgresql-dev	\
     unzip \
     zip \
+    nodejs \
+    npm \
  && rm -rf /var/cache/apk/*
 
 # Install PHP extensions
@@ -38,9 +40,11 @@ RUN cat /etc/crontabs/crontab >> /etc/crontabs/root
 #################
 # PROD SPECIFIC #
 #################
-
 COPY src/composer.json src/composer.lock ./
 RUN composer install --no-scripts --optimize-autoloader --no-dev
+
+COPY src/package.json src/package-lock.json src/vite.config.js ./
+RUN npm install
 
 #Copy source code
 COPY --chown=www-data:www-data src ./
@@ -48,3 +52,5 @@ COPY --chown=www-data:www-data src ./
 #Optimize performance
 RUN composer dump-autoload
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+
+RUN npm run build
