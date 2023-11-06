@@ -3,8 +3,7 @@ volumes:
   db-data:
 
 networks:
-  default:
-    name: nginx-proxy
+  nginx-proxy:
     external: true
 
 services:
@@ -31,6 +30,9 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME:-app}-nginx
     image: nginx:alpine
     working_dir: /var/www
+    networks:
+      - nginx-proxy
+      - default
     depends_on:
       - php
     environment:
