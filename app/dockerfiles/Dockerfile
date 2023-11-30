@@ -31,7 +31,7 @@ RUN docker-php-ext-configure gd --with-jpeg \
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Update php config variables
-RUN echo "upload_max_filesize = 25M" > /usr/local/etc/php/php.ini && \
+RUN echo "upload_max_filesize = 25M" >> /usr/local/etc/php/php.ini && \
     echo "post_max_size = 25M" >> /usr/local/etc/php/php.ini
 
 #Get latest Composer
