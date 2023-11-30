@@ -36,6 +36,9 @@ RUN pecl install xdebug \
  && docker-php-ext-enable xdebug
 ################
 
+#Set initial PHP config
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
 # Update php config variables
 RUN echo "upload_max_filesize = 25M" > /usr/local/etc/php/php.ini && \
     echo "post_max_size = 25M" >> /usr/local/etc/php/php.ini
