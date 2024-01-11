@@ -95,8 +95,8 @@ new class extends Component {
                 @else
                     <p class="mt-4 text-lg text-gray-900">{{ $stream->title }}</p>
                     <p class="mt-4 text-lg text-gray-900">{{ $stream->description }}</p>
-                    <p class="mt-4 text-lg text-gray-900">{{ $stream->imageUrl }}</p>
-                    <p class="mt-4 text-lg text-gray-900">{{ $stream->streamUrl }}</p>
+                    <p class="mt-4 text-lg text-gray-900">{{ $stream->image_url }}</p>
+                    <p class="mt-4 text-lg text-gray-900">{{ $stream->stream_url }}</p>
                     <p class="mt-4 text-lg text-gray-900">{{ $stream->user_id }}</p>
                 @endif
             </div>

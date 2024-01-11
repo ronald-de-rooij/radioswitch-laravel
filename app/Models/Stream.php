@@ -13,8 +13,8 @@ class Stream extends Model
 
     protected $fillable = [
         'description',
-        'imageUrl',
-        'streamUrl',
+        'image_url',
+        'stream_url',
         'title',
         'user_id', // TODO Is this needed?
     ];

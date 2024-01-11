@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('streams', function (Blueprint $table) {
             $table->id();
             $table->text('description');
-            $table->string('imageUrl');
-            $table->string('streamUrl');
+            $table->string('image_url');
+            $table->string('stream_url');
             $table->string('title');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();

@@ -9,22 +9,22 @@ new class extends Component {
 
     public string $title = '';
     public string $description = '';
-    public string $imageUrl = '';
-    public string $streamUrl = '';
+    public string $image_url = '';
+    public string $stream_url = '';
 
     protected $rules = [
         'title' => 'required|string|max:255',
         'description' => 'required|string|max:255',
-        'imageUrl' => 'required|url|max:255',
-        'streamUrl' => 'required|url|max:255',
+        'image_url' => 'required|url|max:255',
+        'stream_url' => 'required|url|max:255',
     ];
 
     public function mount(): void
     {
         $this->title = $this->stream->title;
         $this->description = $this->stream->description;
-        $this->imageUrl = $this->stream->imageUrl;
-        $this->streamUrl = $this->stream->streamUrl;
+        $this->image_url = $this->stream->image_url;
+        $this->stream_url = $this->stream->stream_url;
     }
 
     public function update(): void
@@ -54,11 +54,11 @@ new class extends Component {
             placeholder="{{ __('What\'s on your mind?') }}"></textarea>
         <x-input-error :messages="$errors->get('description')" class="my-2" />
 
-        <input wire:model="imageUrl" type="url" class="mb-2 block w-full" placeholder="{{ __('Image URL') }}" />
-        <x-input-error :messages="$errors->get('imageUrl')" class="my-2" />
+        <input wire:model="image_url" type="url" class="mb-2 block w-full" placeholder="{{ __('Image URL') }}" />
+        <x-input-error :messages="$errors->get('image_url')" class="my-2" />
 
-        <input wire:model="streamUrl" type="url" class="mb-2 block w-full" placeholder="{{ __('Stream URL') }}" />
-        <x-input-error :messages="$errors->get('streamUrl')" class="my-2" />
+        <input wire:model="stream_url" type="url" class="mb-2 block w-full" placeholder="{{ __('Stream URL') }}" />
+        <x-input-error :messages="$errors->get('stream_url')" class="my-2" />
 
         <x-primary-button class="mt-4"> {{ __('Save') }}</x-primary-button>
         <button class="mt-4" wire:click.prevent="cancel">Cancel</button>
