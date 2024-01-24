@@ -26,7 +26,7 @@ class StreamController extends Controller
     public function store(StreamStoreRequest $request): JsonResource
     {
         $stream = Stream::create($request->all());
-        
+
         return new StreamResource($stream);
     }
 

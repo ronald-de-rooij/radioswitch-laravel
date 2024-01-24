@@ -20,7 +20,7 @@ class StreamResource extends JsonResource
             'stream_url' => $this->stream_url,
             'image_url' => $this->image_url,
             'description' => $this->description,
-            'user_id' => $this->user_id,
+            // 'user_id' => $this->user_id,
         ];
     }
 }

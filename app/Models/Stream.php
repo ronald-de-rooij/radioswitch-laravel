@@ -16,6 +16,9 @@ class Stream extends Model
         'image_url',
         'stream_url',
         'title',
+    ];
+
+    protected $hidden = [
         'user_id', // TODO Is this needed?
     ];
 
