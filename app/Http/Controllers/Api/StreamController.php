@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\StreamResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\StreamStoreRequest;
+use App\Http\Requests\StreamUpdateRequest;
 use App\Models\Stream;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -35,18 +36,26 @@ class StreamController extends Controller
      */
     public function show(string $id)
     {
-        return StreamResource::collection(Stream::findOrFail($id));
+        return Stream::findOrFail($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StreamUpdateRequest $request, string $id)
     {
         $stream = Stream::findOrFail($id);
+
+        $request->validate([
+            'description' => 'required',
+            'title' => 'required',
+            'image_url' => 'required',
+            'title' => 'required',
+        ]);
+        
         $stream->update($request->all());
 
-        return StreamResource::collection($stream, 200);
+        return new StreamResource($stream, 200);
     }
 
     /**

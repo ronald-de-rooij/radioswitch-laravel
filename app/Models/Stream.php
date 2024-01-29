@@ -12,10 +12,10 @@ class Stream extends Model
     use HasFactory;
 
     protected $fillable = [
+        'title',
         'description',
         'image_url',
         'stream_url',
-        'title',
     ];
 
     protected $hidden = [
