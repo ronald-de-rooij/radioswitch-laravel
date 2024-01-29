@@ -1,7 +1,6 @@
-image: lorisleiva/laravel-docker:latest
-
-before_script:
-  - cd src
+variables:
+  INSIGHT_DISABLE_SECURITY_CHECK: "true"
+  DB_TYPE: "postgres"
 
 stages:
   - build
@@ -16,12 +15,16 @@ include:
   - project: 'wolfpackit/projects/templates/documentation-template'
     ref: main
     file: '/.gitlab-ci-docs.yml'
+  - project: 'wolfpackit/internal/infrastructure/ci-cd-templates'
+    ref: main
+    file: '/templates/laravel/gitlab-ci.yml'
 
 test-pages:
   image: python:3.8-buster
   before_script:
     - pip install -r requirements.txt
   stage: deploy
+  when: manual
   script:
     - mkdocs build --strict --verbose --site-dir test
   artifacts:
@@ -35,6 +38,7 @@ pages:
   before_script:
     - pip install -r requirements.txt
   stage: deploy
+  when: manual
   script:
     - mkdocs build --strict --verbose
   artifacts:
@@ -42,97 +46,3 @@ pages:
       - public
   only:
     - main
-
-composer:
-  stage: build
-
-  script:
-    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    - cp .env.example .env
-    - php artisan key:generate
-
-  artifacts:
-    # (Optional) Give it an expiration date,
-    # after that period you won't be able to
-    # download them via the UI anymore.
-    expire_in: 1 month
-
-    # Define what to output from the job.
-    paths:
-      - src/vendor/
-      - src/.env
-cache:
-  # The variable CI_COMMIT_REF_SLUG
-  # refers to the slug of the branch.
-  # For example: `master` for the master branch.
-  # We use the `composer` suffix to avoid conflicts with
-  # the `npm` cache that we'll define next.
-  key: ${CI_COMMIT_REF_SLUG}-composer
-
-  # Define what to cache.
-  paths:
-    - src/vendor/
-
-phpunit:
-  stage: inspect
-  variables:
-    XDEBUG_MODE: "coverage"
-  # List of jobs from which it will download the artifacts.
-  dependencies:
-    - composer
-  artifacts:
-    expire_in: 1 month
-    when: always
-    reports:
-      junit: src/reports/junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: src/reports/cobertura.xml
-
-  script:
-    - touch database/database.sqlite
-    - php artisan config:clear
-    - php artisan test --env=testing
-
-codestyle:
-  stage: inspect
-  dependencies: []
-  script:
-    - vendor/bin/pint --test --format=gitlab --config=pint.json
-  artifacts:
-    expire_in: 1 month
-    when: always
-    reports:
-      codequality: src/reports/code-climate.json
-
-dockerize-acceptance:
-  image: docker
-  stage: deploy
-
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  script:
-    - docker pull "$CI_REGISTRY_IMAGE:latest" || true
-    - docker build --pull --cache-from  "$CI_REGISTRY_IMAGE:latest" -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA" -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-latest" -t "$CI_REGISTRY_IMAGE:latest" . -f app/dockerfiles/Dockerfile
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-$CI_COMMIT_SHORT_SHA"
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG-latest"
-    - docker push "$CI_REGISTRY_IMAGE:latest"
-  only:
-    - main
-
-dockerize-production:
-  image: docker
-  stage: deploy
-
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  script:
-    - docker pull "$CI_REGISTRY_IMAGE:latest" || true
-    - docker build --pull --cache-from  "$CI_REGISTRY_IMAGE:latest" -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG" . -f app/dockerfiles/Dockerfile
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_TAG"
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
