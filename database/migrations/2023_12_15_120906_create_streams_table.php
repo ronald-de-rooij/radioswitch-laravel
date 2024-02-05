@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Stream;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,13 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('streams', function (Blueprint $table) {
-            $table->id();
+        Schema::create((new Stream())->getTable(), function (Blueprint $table) {
+            $table->uuid('id')->primary();
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignUuid('user_id')->constrained();
 
-            $table->text('description');
-            $table->string('image_url');
+            $table->text('description')->nullable();
+            $table->string('image_url')->nullable();
             $table->string('stream_url');
             $table->string('title');
 

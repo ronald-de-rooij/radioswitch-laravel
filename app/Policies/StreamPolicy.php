@@ -29,9 +29,11 @@ class StreamPolicy
      */
     public function create(User $user): bool
     {
-        if ($user->hasPermissionTo(Permisson::CREATE_STREAM)) {
+        if ($user->hasPermissionTo(Permisson::STREAM_CREATE)) {
             return true;
         }
+        
+        return false;
     }
 
     /**

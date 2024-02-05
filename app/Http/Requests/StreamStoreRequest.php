@@ -25,7 +25,7 @@ class StreamStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'string|max:255',
             'image_url' => 'required|url|max:255',
             'stream_url' => 'required|url|max:255',
             'user_id' => 'required|string|max:255',

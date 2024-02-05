@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Seeder;
 use App\Http\Role;
 
@@ -20,15 +20,15 @@ class UserSeeder extends Seeder
     protected function createDefaultUser(): void
     {
         $email = env('DEFAULT_USER_EMAIL', 'mario@bros.com');
-        $id = env('DEFAULT_USER_ID', 1); 
-        // TODO: Uuid::uuid4() - https://gitlab.com/wolfpackit/projects/euroteq/backend/-/blob/main/src/database/seeders/UserSeeder.php
+        $id = env('DEFAULT_USER_ID', Uuid::uuid4());
 
         $user = User::updateOrCreate(
             [
                 'id' => $id
             ],
             [
-                'name' => 'Mario Bros',
+                'first_name' => env('DEFAULT_USER_FIRST_NAME', 'Mario'),
+                'last_name' => env('DEFAULT_USER_LAST_NAME', 'Bros'),
                 'email' => $email,
                 'password' => bcrypt($this->getDefaultPassword()),
             ]

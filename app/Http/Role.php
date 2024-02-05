@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-class Role extends \Spati\Permission\Models\Role
+class Role extends \Spatie\Permission\Models\Role
 {
     // Roles
     public const ADMIN = 'admin';

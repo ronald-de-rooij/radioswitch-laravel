@@ -47,12 +47,11 @@ class StreamController extends Controller
         $stream = Stream::findOrFail($id);
 
         $request->validate([
-            'description' => 'required',
+            // 'description' => 'required',
             'title' => 'required',
             'image_url' => 'required',
-            'title' => 'required',
         ]);
-        
+
         $stream->update($request->all());
 
         return new StreamResource($stream, 200);
