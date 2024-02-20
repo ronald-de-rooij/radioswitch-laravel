@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-class Permisson extends \Spatie\Permission\Models\Permission
+class Permission extends \Spatie\Permission\Models\Permission
 {
     // Streams
     public const STREAM_VIEW = 'stream.view';
