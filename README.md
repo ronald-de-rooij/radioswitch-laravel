@@ -1,3 +1,39 @@
+# SSL
+
+-   Documentation: [CertBot](https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal)
+
+### Install Certbot
+
+```
+sudo snap install --classic certbot
+```
+
+### Prepare the Certbot command
+
+```
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+```
+
+### Create SSL certificate
+
+Set the correct config directory in the following command:
+
+```
+sudo certbot certonly --config-dir /var/www/radioswitch-laravel/docker/nginx/ssl
+```
+
+### Change nginx/sites/api.radioswitch.conf - Nginx configuration file
+
+```
+    # For https
+    listen 443 ssl;
+    listen [::]:443 ssl ipv6only=on;
+    ssl_certificate /etc/nginx/ssl/live/api.radioswitch.ch/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/live/api.radioswit.ch/privkey.pem;
+```
+
+---
+
 ## Installation instructions
 
 -   Run command `php artisan passport:keys` on the server for the first time | [passport#passport-or-sanctum](https://laravel.com/docs/10.x/passport#passport-or-sanctum)
