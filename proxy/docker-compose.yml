@@ -1,39 +1,39 @@
 version: "3.7"
 services:
-  nginx-proxy:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    image: jwilder/nginx-proxy
-    restart: always
-    container_name: nginx-proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - letsencrypt-certs:/etc/nginx/certs
-      - letsencrypt-vhost-d:/etc/nginx/vhost.d
-      - letsencrypt-html:/usr/share/nginx/html
-  letsencrypt-proxy:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    restart: always
-    container_name: letsencrypt-proxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - letsencrypt-certs:/etc/nginx/certs
-      - letsencrypt-vhost-d:/etc/nginx/vhost.d
-      - letsencrypt-html:/usr/share/nginx/html
-    environment:
-      - DEFAULT_EMAIL=dev-vmn@wolfpackit.nl
-      - NGINX_PROXY_CONTAINER=nginx-proxy
+    nginx-proxy:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: jwilder/nginx-proxy
+        restart: always
+        container_name: nginx-proxy
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+            - letsencrypt-certs:/etc/nginx/certs
+            - letsencrypt-vhost-d:/etc/nginx/vhost.d
+            - letsencrypt-html:/usr/share/nginx/html
+    letsencrypt-proxy:
+        image: jrcs/letsencrypt-nginx-proxy-companion
+        restart: always
+        container_name: letsencrypt-proxy
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - letsencrypt-certs:/etc/nginx/certs
+            - letsencrypt-vhost-d:/etc/nginx/vhost.d
+            - letsencrypt-html:/usr/share/nginx/html
+        environment:
+            - DEFAULT_EMAIL=info@radioswit.ch
+            - NGINX_PROXY_CONTAINER=nginx-proxy
 
 networks:
-  default:
-    name: nginx-proxy
-    external: true
+    default:
+        name: nginx-proxy
+        external: true
 
 volumes:
-  letsencrypt-certs:
-  letsencrypt-vhost-d:
-  letsencrypt-html:
+    letsencrypt-certs:
+    letsencrypt-vhost-d:
+    letsencrypt-html:
