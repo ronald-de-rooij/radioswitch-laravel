@@ -1,0 +1,7 @@
+.git
+.idea
+/src/.env
+/src/storage/framework/cache/**
+/src/storage/framework/sessions/**
+/src/storage/framework/views/**
+/src/vendor/**
