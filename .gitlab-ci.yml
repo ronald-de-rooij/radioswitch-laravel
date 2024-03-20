@@ -1,0 +1,48 @@
+variables:
+  INSIGHT_DISABLE_SECURITY_CHECK: "true"
+  DB_TYPE: "postgres"
+
+stages:
+  - build
+  - inspect
+  - deploy
+  - test
+
+include:
+  - project: 'wolfpackit/projects/internal/security-tooling'
+    ref: master
+    file: '/templates/gitlab-ci.yml'
+  - project: 'wolfpackit/projects/templates/documentation-template'
+    ref: main
+    file: '/.gitlab-ci-docs.yml'
+  - project: 'wolfpackit/internal/infrastructure/ci-cd-templates'
+    ref: main
+    file: '/templates/laravel/gitlab-ci.yml'
+
+test-pages:
+  image: python:3.8-buster
+  before_script:
+    - pip install -r requirements.txt
+  stage: deploy
+  when: manual
+  script:
+    - mkdocs build --strict --verbose --site-dir test
+  artifacts:
+    paths:
+      - test
+  except:
+    - main
+
+pages:
+  image: python:3.8-buster
+  before_script:
+    - pip install -r requirements.txt
+  stage: deploy
+  when: manual
+  script:
+    - mkdocs build --strict --verbose
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

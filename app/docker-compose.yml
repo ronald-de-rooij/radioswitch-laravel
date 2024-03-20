@@ -1,0 +1,81 @@
+version: "3.7"
+volumes:
+  db-data:
+
+networks:
+  nginx-proxy:
+    external: true
+
+services:
+  php:
+    container_name: ${COMPOSE_PROJECT_NAME:-app}-php
+    build:
+      context: ./
+      dockerfile: dockerfiles/dev.Dockerfile
+    working_dir: /var/www
+    user: ${DOCKER_USER}
+    env_file:
+      - ./docker.env
+    environment:
+      XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST}
+      PHP_IDE_CONFIG: serverName=docker
+    ports:
+      - 9003
+    depends_on:
+      - postgres
+    volumes:
+      - ../src:/var/www
+      - ./docker-configs/php/xdebug-local.ini:/usr/local/etc/php/conf.d/xdebug-local.ini
+  nginx:
+    container_name: ${COMPOSE_PROJECT_NAME:-app}-nginx
+    image: nginx:alpine
+    working_dir: /var/www
+    networks:
+      - nginx-proxy
+      - default
+    depends_on:
+      - php
+    environment:
+      VIRTUAL_HOST: ${APP_HOSTNAME}
+    expose:
+      - 80
+    volumes:
+      - ../src:/var/www
+      - ./docker-configs/nginx:/etc/nginx/conf.d/
+  postgres:
+    container_name: ${COMPOSE_PROJECT_NAME:-app}-postgres
+    image: postgres:14-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    ports:
+      - "5432:5432"
+  mailhog:
+    container_name: ${COMPOSE_PROJECT_NAME:-app}-mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
+  cron:
+    container_name: ${COMPOSE_PROJECT_NAME:-app}-cron
+    build:
+      context: .
+      dockerfile: dockerfiles/dev.Dockerfile
+    depends_on:
+      - postgres
+    volumes:
+      - ../src:/var/www
+    command: [ "crond", "-f" ]
+  queue:
+    container_name: ${COMPOSE_PROJECT_NAME:-app}-queue
+    build:
+      context: .
+      dockerfile: dockerfiles/dev.Dockerfile
+    depends_on:
+      - postgres
+    volumes:
+      - ../src:/var/www
+    command: 'php artisan queue:work --queue=default'
