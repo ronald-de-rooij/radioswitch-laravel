@@ -1,3 +1,7 @@
+# First time
+- Copy .env.example to .env and adjust the values
+- Run the following command within the /app folder `docker-compose --env-file ../src/.env up -d --build`
+
 # Laravel Starter Project
 
 This repository contains the template for an example architecture around a fresh Laravel project. This allows for an

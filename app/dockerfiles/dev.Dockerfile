@@ -1,4 +1,4 @@
-FROM php:8.1.5-fpm-alpine
+FROM php:8.2.16-fpm-alpine
 WORKDIR /var/www
 
 # Install system dependencies

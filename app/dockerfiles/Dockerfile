@@ -1,4 +1,4 @@
-FROM php:8.1.5-fpm-alpine
+FROM php:8.2.16-fpm-alpine
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -18,14 +18,14 @@ RUN apk add --no-cache \
     zip \
     nodejs \
     npm \
- && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/*
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-jpeg \
- && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
- && docker-php-ext-install opcache zip exif pcntl mbstring exif bcmath gd pdo pdo_pgsql pgsql intl \
- && pecl install redis \
- && docker-php-ext-enable redis
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install opcache zip exif pcntl mbstring exif bcmath gd pdo pdo_pgsql pgsql intl \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 #Set initial php config
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
