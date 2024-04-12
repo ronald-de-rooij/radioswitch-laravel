@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticateWithGoogle
 {
@@ -13,23 +15,32 @@ class AuthenticateWithGoogle
         $accessToken = $request->bearerToken();
 
         if (!$accessToken) {
-            dd('No token');
-            return false; // Token not provided
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $response = Http::asForm()->post('https://oauth2.googleapis.com/tokeninfo', [
-            'access_token' => $accessToken,
-        ]);
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            if (!$user) {
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
+            return $next($request);
+        } catch (JWTException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
 
+        // return response()->json([$user, "user data retrieved"], 200);
         // Validate access token with Google OAuth server
-        // You can use Google API Client Library or make HTTP request to Google's token validation endpoint
+        // $response = Http::asForm()->post('https://oauth2.googleapis.com/tokeninfo', [
+        //     'access_token' => $accessToken,
+        // ]);
 
-        if ($response->successful()) {
-            // Token is valid
-            return true;
-        }
+        // if ($response->successful()) {
+        //     // Token is valid
+        //     // return true;
+        //     return $next($request);
+        // }
 
-        // Token is invalid
-        return response()->json(['error' => 'Unauthorized'], 401);
+        // // Token is invalid
+        // return response()->json(['error' => 'Unauthorized'], 401);
     }
 }

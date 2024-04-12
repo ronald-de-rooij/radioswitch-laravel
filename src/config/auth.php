@@ -13,8 +13,10 @@ return [
     |
     */
 
+    // TODO: JWT guard is set as default (api)
+    // https://jwt-auth.readthedocs.io/en/develop/quick-start/
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
+        'guard' => env('AUTH_GUARD', 'api'), // changed from 'web' to 'api'
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
@@ -40,11 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        // TODO Can this be removed?
-        // 'api' => [
-        //     'driver' => 'passport',
-        //     'provider' => 'users',
-        // ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
     ],
 
 

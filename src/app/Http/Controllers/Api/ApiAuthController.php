@@ -1,151 +1,83 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Http\HttpCode;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Route;
-use Ramsey\Uuid\Uuid;
-
+use App\Http\Controllers\Controller;
 
 class ApiAuthController extends Controller
 {
-    public function login(Request $request)
-    {
-        // Use OAuth to log in and provide a proxy.
-        $client = $this->getClient();
-
-
-        $request->validate(
-            [
-                'email' => 'required|email',
-                'password' => 'required',
-            ]
-        );
-
-        $request->request->add([
-            'username' => $request->email,
-            'password' => $request->password,
-            'grant_type' => 'password',
-            'client_id' => $client->id,
-            'client_secret' => $client->secret,
-            'scope' => '*'
-        ]);
-
-        $proxy = Request::create(
-            '/oauth/token',
-            'POST'
-        );
-
-        return Route::dispatch($proxy);
-    }
-
-    public function register(Request $request)
-    {
-        // Use OAuth to log in and provide a proxy.
-        // $client = $this->getClient();
-        $uuid = Uuid::uuid4();
-
-        $request->validate(
-            [
-                'name' => 'required',
-                'email' => 'required|email',
-                'password' => 'required',
-            ]
-        );
-        $request->request->add([
-            'id' => $uuid,
-        ]);
-
-        // return $request->all();
-        $input = $request->all();
-
-        $input['password'] = bcrypt($input['password']);
-        // return $input;
-        $user = User::create($input);
-        return $user;
-        // $tokenResult = $user->createToken('Personal Access Token');
-
-        // return response([
-        //     'token' => $tokenResult->accessToken,
-        //     'expires_at' => Carbon::parse(
-        //         $tokenResult->token->expires_at
-        //     )->toDateTimeString()
-        // ], 200);
-
-        // $request->request->add([
-        //     'username' => $request->email,
-        //     'password' => $request->password,
-        //     'grant_type' => 'password',
-        //     'client_id' => $client->id,
-        //     'client_secret' => $client->secret,
-        //     'scope' => '*'
-        // ]);
-
-        // $proxy = Request::create(
-        //     '/oauth/token',
-        //     'POST'
-        // );
-
-        // return Route::dispatch($proxy);
-    }
-
-        /**
-     * @param Request $request
-     * @return mixed
+    /**
+     * Create a new AuthController instance.
+     *
+     * @return void
      */
-    protected function refreshToken(Request $request)
+    public function __construct()
     {
-        $client = $this->getClient();
-
-        $request->request->add([
-            'grant_type' => 'refresh_token',
-            'refresh_token' => $request->refresh_token,
-            'client_id' => $client->id,
-            'client_secret' => $client->secret,
-        ]);
-
-
-        $proxy = Request::create(
-            '/oauth/token',
-            'POST'
-        );
-
-        return Route::dispatch($proxy);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
-
 
     /**
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    protected function getClient()
+    public function login()
     {
-        $client = DB::table('oauth_clients')
-            ->where('personal_access_client', '=', false)
-            ->first();
-        if (empty($client)) {
-            abort(HttpCode::INTERNAL_SERVER_ERROR, "Client was not set up.");
+        $credentials = request(['email', 'password']);
+
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return $client;
+
+        return $this->respondWithToken($token);
     }
 
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
 
+    /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
-        if (! Auth::check()) {
-            abort(HttpCode::UNAUTHORIZED);
-        }
-        /** @var User $user */
-        $user = Auth::user();
-        $token = $user->token();
-        $token->revoke();
+        auth()->logout();
 
-        return __('User logged out successfully');
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh()
+    {
+        return $this->respondWithToken(auth()->refresh());
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
+    }
 }

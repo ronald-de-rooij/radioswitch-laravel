@@ -6,7 +6,7 @@ use Exception;
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleSocialiteController extends Controller
@@ -20,18 +20,13 @@ class GoogleSocialiteController extends Controller
     {
         try {
             // get user data from Google
-            $user = Socialite::driver('google')->stateless()->user();
-
+            $authenticatedUser = Socialite::driver('google')->stateless()->user();
             // find user in the database where the social id is the same with the id provided by Google
-            $findUser = User::where('social_id', $user->id)->first();
+            $findUser = User::where('social_id', $authenticatedUser->id)->first();
 
             if ($findUser)  // if user found then do this
             {
-                return response()->json([
-                    'name' => $findUser->name,
-                    'email' => $findUser->email,
-                    'auth_token' => $user->token
-                ]);
+                return $this->formatUserResourceWithToken($findUser, $authenticatedUser);
             } else {
                 // if user not found then this is the first time he/she try to login with Google account
                 // create user data with their Google account data
@@ -40,20 +35,30 @@ class GoogleSocialiteController extends Controller
                         'id' => Uuid::uuid4()->toString(),
                     ],
                     [
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'social_id' => $user->id,
+                        'name' => $authenticatedUser->name,
+                        'email' => $authenticatedUser->email,
+                        'social_id' => $authenticatedUser->id,
                         'social_type' => 'google',
                         'password' => bcrypt('password')
                     ]
                 );
 
-                Auth::login($newUser);
-
-                return redirect('/dashboard');
+                return $this->formatUserResourceWithToken($newUser, $authenticatedUser);
             }
         } catch (Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    function formatUserResourceWithToken($user, $authenticatedUser): UserResource
+    {
+        $token = auth()->login($user);
+
+        return (new UserResource($user))->additional([
+            'meta' => [
+                'token' => $token,
+                'access_token' => $authenticatedUser->token
+            ]
+        ]);
     }
 }
