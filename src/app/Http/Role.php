@@ -1,5 +1,5 @@
 <?php
-// TODO INSTALL SPATIE
+
 namespace App\Http;
 
 class Role extends \Spatie\Permission\Models\Role

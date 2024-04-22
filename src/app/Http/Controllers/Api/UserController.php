@@ -10,7 +10,6 @@ class UserController extends ApiController
 {
     public function user(Request $request): mixed
     {
-        // return $request->bearerToken();
       return $this->successResponse(new UserResource($request->user()));
     }
 }

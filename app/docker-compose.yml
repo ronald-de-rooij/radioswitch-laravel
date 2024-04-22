@@ -36,7 +36,8 @@ services:
     depends_on:
       - php
     environment:
-      VIRTUAL_HOST: ${APP_HOSTNAME}
+      VIRTUAL_HOST: ${API_HOSTNAME},${APP_HOSTNAME}
+      LETSENCRYPT_HOST: ${API_HOSTNAME},${APP_HOSTNAME}
     expose:
       - 80
     volumes:
@@ -68,7 +69,7 @@ services:
       - postgres
     volumes:
       - ../src:/var/www
-    command: [ "crond", "-f" ]
+    command: ["crond", "-f"]
   queue:
     container_name: ${COMPOSE_PROJECT_NAME:-app}-queue
     build:
@@ -78,4 +79,4 @@ services:
       - postgres
     volumes:
       - ../src:/var/www
-    command: 'php artisan queue:work --queue=default'
+    command: "php artisan queue:work --queue=default"

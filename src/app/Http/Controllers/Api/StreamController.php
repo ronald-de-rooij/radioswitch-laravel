@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StreamResource;
 use App\Http\Requests\StreamStoreRequest;
@@ -42,7 +43,11 @@ class StreamController extends Controller
      */
     public function update(StreamUpdateRequest $request, string $id)
     {
-        $stream = Stream::findOrFail($id);
+        try {
+            $stream = Stream::findOrFail($id);
+        } catch (Exception $e) {
+            return response(['message' => 'Stream not found'], 404);
+        }
 
         $request->validate([
             // 'description' => 'required',

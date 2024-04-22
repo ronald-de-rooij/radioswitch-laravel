@@ -19,9 +19,10 @@ class GoogleSocialiteController extends Controller
     public function handleCallback()
     {
         try {
-            // get user data from Google
+            // Get user data from Google
             $authenticatedUser = Socialite::driver('google')->stateless()->user();
-            // find user in the database where the social id is the same with the id provided by Google
+
+            // Find user in the database where the social id is the same with the id provided by Google
             $findUser = User::where('social_id', $authenticatedUser->id)->first();
 
             if ($findUser)  // if user found then do this
@@ -50,14 +51,13 @@ class GoogleSocialiteController extends Controller
         }
     }
 
-    function formatUserResourceWithToken($user, $authenticatedUser): UserResource
+    function formatUserResourceWithToken($user): UserResource
     {
         $token = auth()->login($user);
 
         return (new UserResource($user))->additional([
             'meta' => [
-                'token' => $token,
-                'access_token' => $authenticatedUser->token
+                'access_token' => $token,
             ]
         ]);
     }

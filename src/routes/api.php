@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthenticateWithGoogle;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StreamController;
-use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Auth\GoogleSocialiteController;
 
 /*

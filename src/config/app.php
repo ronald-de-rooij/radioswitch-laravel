@@ -174,12 +174,9 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        // Spatie\Permission\PermissionServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
     ])->toArray(),
-
-    // TODO Remove comment after Spatie\Permission\PermissionServiceProvider::class is added to the providers array
 
 
     /*
