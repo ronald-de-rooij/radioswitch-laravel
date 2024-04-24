@@ -109,11 +109,12 @@ class StreamSeeder extends Seeder
                     'id' => $data['id']
                 ],
                 [
-                'user_id' => 'deadbeef-a123-b456-c789-deadbaadf00d',
-                'title' => $title,
-                'stream_url' => $data['stream_url'],
-                'image_url' => $data['image_url'],
-            ]);
+                    'user_id' => '3c6a5dc3-1484-43bc-808e-45137aee846d',
+                    'title' => $title,
+                    'stream_url' => $data['stream_url'],
+                    'image_url' => $data['image_url'],
+                ]
+            );
         }
     }
 }

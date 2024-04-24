@@ -19,17 +19,14 @@ class UserSeeder extends Seeder
 
     protected function createDefaultUser(): void
     {
-        $email = env('DEFAULT_USER_EMAIL', 'mario@bros.com');
-        $id = env('DEFAULT_USER_ID', Uuid::uuid4());
 
-        // $user = User::updateOrCreate(
         User::updateOrCreate(
             [
-                'id' => $id
+                'id' => env('DEFAULT_USER_ID', '3c6a5dc3-1484-43bc-808e-45137aee846d'),
             ],
             [
-                'name' => env('DEFAULT_USER_NAME', 'Mario Bros'),
-                'email' => $email,
+                'name' => env('DEFAULT_USER_NAME', 'Radio Switch'),
+                'email' => env('DEFAULT_USER_EMAIL', 'info@radioswit.ch'),
                 'password' => bcrypt($this->getDefaultPassword()),
             ]
         );
@@ -43,5 +40,4 @@ class UserSeeder extends Seeder
         }
         return 'testtest';
     }
-
 }
