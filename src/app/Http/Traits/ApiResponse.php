@@ -2,9 +2,9 @@
 
 namespace App\Http\Traits;
 
-use App\Http\HttpCode;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Response;
 
 trait ApiResponse
 {
@@ -18,9 +18,9 @@ trait ApiResponse
         LengthAwarePaginator $query,
         string $resourceClassName = 'JsonResource'
     ): JsonResponse {
-        $response = response()->json( // NOSONAR
+        $response = response()->json(
             $resourceClassName::collection($query->all()),
-            HttpCode::OK
+            Response::HTTP_OK
         )->withHeaders([
             'x-pagination-page-count' => $query->lastPage(),
             'x-pagination-per-page' => $query->perPage(),
@@ -35,7 +35,7 @@ trait ApiResponse
      * @param int $code
      * @return JsonResponse
      */
-    protected function successResponse($data, string $message = null, int $code = HttpCode::OK): JsonResponse
+    protected function successResponse($data, string $message = null, int $code = Response::HTTP_OK): JsonResponse
     {
         if (empty($data) && !empty($message)) {
             $data = ['message' => $message];
@@ -46,7 +46,7 @@ trait ApiResponse
     protected function errorResponse(
         $errors,
         string $message = null,
-        int $code = HttpCode::INTERNAL_SERVER_ERROR
+        int $code = Response::HTTP_INTERNAL_SERVER_ERROR
     ): JsonResponse {
         return response()->json(
             [

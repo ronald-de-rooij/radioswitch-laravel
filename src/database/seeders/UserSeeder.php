@@ -19,7 +19,6 @@ class UserSeeder extends Seeder
 
     protected function createDefaultUser(): void
     {
-
         User::updateOrCreate(
             [
                 'id' => env('DEFAULT_USER_ID', '3c6a5dc3-1484-43bc-808e-45137aee846d'),
