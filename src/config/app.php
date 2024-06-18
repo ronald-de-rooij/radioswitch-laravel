@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\ServiceProvider;
+use Fruitcake\Cors\HandleCors;
 
 return [
 

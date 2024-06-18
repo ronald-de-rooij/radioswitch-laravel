@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => env('DEFAULT_USER_NAME', 'Radio Switch'),
-                'email' => env('DEFAULT_USER_EMAIL', 'info@radioswit.ch'),
+                'email' => env('DEFAULT_USER_EMAIL', 'info@radio-switch.nl'),
                 'password' => bcrypt($this->getDefaultPassword()),
             ]
         );
